@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ac.controller.VentaController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <left>
+        <VBox maxWidth="300" minWidth="300" spacing="10">
+            <padding>
+                <Insets right="20" />
+            </padding>
+            <Button onAction="#handleVolver" text="Volver al Menú" />
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Registrar Venta" />
+            <Label text="Cliente" />
+            <ComboBox fx:id="cmbCliente" prefHeight="30.0" promptText="Seleccione el cliente" />
+            <Label text="Libro" />
+            <ComboBox fx:id="cmbLibro" prefHeight="30.0" promptText="Seleccione un libro" />
+            <HBox spacing="10">
+                <Label text="Cantidad" />
+                <Spinner fx:id="spCantidad" prefHeight="30.0" prefWidth="90.0" />
+                <Button fx:id="btnAgregar" onAction="#handleAgregarLinea" prefWidth="100.0" text="Agregar" />
+            </HBox>
+            <Separator />
+            <Label fx:id="lblTotal" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Total: Q0.00" />
+            <Button fx:id="btnRegistrar" onAction="#handleRegistrarVenta" prefHeight="34.0" text="Registrar Venta" />
+            <Label fx:id="lblMensaje" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10">
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Líneas de Venta" />
+            <TableView fx:id="tablaLineas">
+                <columns>
+                    <TableColumn fx:id="colIsbn" prefWidth="110" text="ISBN" />
+                    <TableColumn fx:id="colTitulo" prefWidth="220" text="Título" />
+                    <TableColumn fx:id="colPrecio" prefWidth="90" text="Precio" />
+                    <TableColumn fx:id="colCantidad" prefWidth="90" text="Cantidad" />
+                    <TableColumn fx:id="colSubtotal" prefWidth="110" text="Subtotal" />
+                </columns>
+            </TableView>
+            <HBox spacing="10">
+                <Button fx:id="btnQuitar" onAction="#handleQuitarLinea" text="Quitar Seleccionado" />
+                <Button fx:id="btnVaciar" onAction="#handleVaciar" text="Vaciar" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

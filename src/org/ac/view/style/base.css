@@ -1,0 +1,215 @@
+/* ========================================
+   BASE — Design System Compartido
+   ======================================== */
+
+/* ---------- Variables de color ---------- */
+.root {
+    -fx-primary: #4e73df;
+    -fx-primary-dark: #224abe;
+    -fx-success: #1cc88a;
+    -fx-info: #36b9cc;
+    -fx-warning: #f6c23e;
+    -fx-danger: #e74a3b;
+    -fx-secondary: #858796;
+    -fx-dark: #1a1a2e;
+    -fx-light-bg: #f0f2f5;
+    -fx-card-bg: white;
+    -fx-text-dark: #2d3748;
+    -fx-text-muted: #a0aec0;
+    -fx-font-family: "Segoe UI", "System";
+}
+
+/* ---------- Root base ---------- */
+.root {
+    -fx-background-color: #f0f2f5;
+    -fx-font-family: "Segoe UI", "System";
+}
+
+/* ---------- Etiquetas de formulario ---------- */
+.label-title {
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.label-field {
+    -fx-text-fill: #4a5568;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+
+/* ---------- Botones generales ---------- */
+.btn-primary {
+    -fx-background-color: #4e73df;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 10 24;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #224abe;
+}
+
+.btn-primary:pressed {
+    -fx-background-color: #1a3a8e;
+}
+
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #4a5568;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-border-color: #cbd5e0;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #f7fafc;
+    -fx-border-color: #a0aec0;
+}
+
+.btn-logout {
+    -fx-background-color: rgba(255,255,255,0.15);
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-border-color: rgba(255,255,255,0.3);
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+.btn-logout:hover {
+    -fx-background-color: #e74a3b;
+    -fx-border-color: #e74a3b;
+}
+
+.btn-logout:pressed {
+    -fx-background-color: #c0392b;
+}
+
+/* ---------- Campos de texto ---------- */
+.field {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #a0aec0;
+}
+
+.field:focused {
+    -fx-border-color: #4e73df;
+    -fx-effect: dropshadow(gaussian, rgba(78,115,223,0.15), 4, 0, 0, 1);
+}
+
+/* ---------- Mensajes ---------- */
+.lbl-mensaje {
+    -fx-font-size: 12px;
+}
+
+.lbl-mensaje-error {
+    -fx-text-fill: #e74a3b;
+    -fx-font-size: 12px;
+}
+
+.lbl-mensaje-success {
+    -fx-text-fill: #1cc88a;
+    -fx-font-size: 12px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-padding: 0;
+    -fx-spacing: 6;
+    -fx-alignment: TOP_CENTER;
+    -fx-transition: all 0.2s ease;
+}
+
+.card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.14), 12, 0, 0, 4);
+    -fx-translate-y: -3;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-transition: all 0.2s ease;
+}
+
+.card:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 1);
+    -fx-translate-y: 0;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+}
+
+.card-accent-primary {
+    -fx-background-color: #4e73df;
+    -fx-min-height: 4;
+    -fx-max-height: 4;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.card-accent-success {
+    -fx-background-color: #1cc88a;
+    -fx-min-height: 4;
+    -fx-max-height: 4;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.card-accent-info {
+    -fx-background-color: #36b9cc;
+    -fx-min-height: 4;
+    -fx-max-height: 4;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.card-accent-warning {
+    -fx-background-color: #f6c23e;
+    -fx-min-height: 4;
+    -fx-max-height: 4;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.card-accent-danger {
+    -fx-background-color: #e74a3b;
+    -fx-min-height: 4;
+    -fx-max-height: 4;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.card-accent-secondary {
+    -fx-background-color: #858796;
+    -fx-min-height: 4;
+    -fx-max-height: 4;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.card-icon {
+    -fx-font-size: 36px;
+    -fx-alignment: CENTER;
+    -fx-padding: 8 0 2 0;
+}
+
+.card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3748;
+    -fx-alignment: CENTER;
+}
+
+.card-desc {
+    -fx-font-size: 11px;
+    -fx-text-fill: #a0aec0;
+    -fx-alignment: CENTER;
+}

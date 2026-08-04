@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ac.controller.AutorController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <left>
+        <VBox maxWidth="300" minWidth="300" spacing="10">
+            <padding>
+                <Insets right="20" />
+            </padding>
+            <Button onAction="#handleVolver" text="Volver al Menú" />
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Registrar Autor" />
+            <TextField fx:id="txtNombre" disable="true" prefHeight="30.0" promptText="Nombre" />
+            <TextField fx:id="txtApellido" disable="true" prefHeight="30.0" promptText="Apellido" />
+            <TextField fx:id="txtNacionalidad" disable="true" prefHeight="30.0" promptText="Nacionalidad" />
+            <TextArea fx:id="txtBiografia" disable="true" prefHeight="80.0" promptText="Biografía" />
+            <HBox spacing="10">
+                <Button fx:id="btnNuevo" onAction="#handleNuevo" prefWidth="120" text="Nuevo" />
+                <Button fx:id="btnEditar" onAction="#handleEditar" prefWidth="120" text="Editar" />
+            </HBox>
+            <HBox spacing="10">
+                <Button onAction="#handleGuardar" prefWidth="120" text="Guardar" />
+                <Button onAction="#handleCancelar" prefWidth="120" text="Cancelar" />
+            </HBox>
+            <Label fx:id="lblMensaje" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10">
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Lista de Autores" />
+            <TextField fx:id="txtBuscar" promptText="Buscar por nombre, apellido, nacionalidad o biografía…" />
+            <TableView fx:id="tablaAutores">
+                <columns>
+                    <TableColumn fx:id="colIdAutor" prefWidth="80" text="ID" />
+                    <TableColumn fx:id="colNombreAutor" prefWidth="130" text="Nombre" />
+                    <TableColumn fx:id="colApellidoAutor" prefWidth="130" text="Apellido" />
+                    <TableColumn fx:id="colNacionalidad" prefWidth="130" text="Nacionalidad" />
+                    <TableColumn fx:id="colBiografia" prefWidth="180" text="Biografía" />
+                </columns>
+            </TableView>
+            <HBox spacing="10">
+                <Button fx:id="btnPrimero" onAction="#handlePrimero" text="Primero" />
+                <Button fx:id="btnAnterior" onAction="#handleAnterior" text="Anterior" />
+                <Button fx:id="btnSiguiente" onAction="#handleSiguiente" text="Siguiente" />
+                <Button fx:id="btnUltimo" onAction="#handleUltimo" text="Último" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

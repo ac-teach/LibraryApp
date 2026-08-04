@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ac.controller.LibroController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <left>
+        <VBox maxWidth="300" minWidth="300" spacing="10">
+            <padding>
+                <Insets right="20" />
+            </padding>
+            <Button onAction="#handleVolver" text="Volver al Menú" />
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Registrar Libro" />
+            <TextField fx:id="txtIsbn" disable="true" prefHeight="30.0" promptText="ISBN" />
+            <TextField fx:id="txtTitulo" disable="true" prefHeight="30.0" promptText="Título" />
+            <TextField fx:id="txtFecha" disable="true" prefHeight="30.0" promptText="Fecha publicación (YYYY-MM-DD)" />
+            <TextField fx:id="txtPrecio" disable="true" prefHeight="30.0" promptText="Precio" />
+            <TextField fx:id="txtStock" disable="true" prefHeight="30.0" promptText="Stock" />
+            <ComboBox fx:id="cmbCategoria" disable="true" prefHeight="30.0" promptText="Categoría" />
+            <ComboBox fx:id="cmbEditorial" disable="true" prefHeight="30.0" promptText="Editorial" />
+            <HBox spacing="10">
+                <Button fx:id="btnNuevo" onAction="#handleNuevo" prefWidth="120" text="Nuevo" />
+                <Button fx:id="btnEditar" onAction="#handleEditar" prefWidth="120" text="Editar" />
+            </HBox>
+            <HBox spacing="10">
+                <Button onAction="#handleGuardar" prefWidth="120" text="Guardar" />
+                <Button onAction="#handleCancelar" prefWidth="120" text="Cancelar" />
+            </HBox>
+            <Label fx:id="lblMensaje" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10">
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Lista de Libros" />
+            <TextField fx:id="txtBuscar" promptText="Buscar por ISBN, título, fecha, precio o stock…" />
+            <TableView fx:id="tablaLibros">
+                <columns>
+                    <TableColumn fx:id="colIsbn" prefWidth="110" text="ISBN" />
+                    <TableColumn fx:id="colTitulo" prefWidth="180" text="Título" />
+                    <TableColumn fx:id="colFecha" prefWidth="120" text="Fecha Publicación" />
+                    <TableColumn fx:id="colPrecio" prefWidth="90" text="Precio" />
+                    <TableColumn fx:id="colStock" prefWidth="90" text="Stock" />
+                    <TableColumn fx:id="colIdCategoria" prefWidth="90" text="ID Categoría" />
+                    <TableColumn fx:id="colNitEditorial" prefWidth="110" text="NIT Editorial" />
+                </columns>
+            </TableView>
+            <HBox spacing="10">
+                <Button fx:id="btnPrimero" onAction="#handlePrimero" text="Primero" />
+                <Button fx:id="btnAnterior" onAction="#handleAnterior" text="Anterior" />
+                <Button fx:id="btnSiguiente" onAction="#handleSiguiente" text="Siguiente" />
+                <Button fx:id="btnUltimo" onAction="#handleUltimo" text="Último" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

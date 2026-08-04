@@ -1,7 +1,109 @@
-/*
- * Empty Stylesheet file.
- */
+/* ========================================
+   DASHBOARD ADMIN — Estilos específicos
+   ======================================== */
 
-.mainFxmlClass {
+/* ---------- Header ---------- */
+.header {
+    -fx-background-color: linear-gradient(to right, #4e73df, #224abe);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);
+}
 
+.avatar {
+    -fx-fill: rgba(255,255,255,0.2);
+    -fx-stroke: rgba(255,255,255,0.5);
+    -fx-stroke-width: 2;
+}
+
+.header-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.header-subtitle {
+    -fx-text-fill: rgba(255,255,255,0.75);
+    -fx-font-size: 12px;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    -fx-background-color: #1a1a2e;
+    -fx-min-width: 220;
+    -fx-max-width: 220;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
+}
+
+.sidebar-title {
+    -fx-text-fill: #a0aec0;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-transform: uppercase;
+    -fx-padding: 8 20 6 20;
+    -fx-letter-spacing: 1.5;
+}
+
+.sidebar-separator {
+    -fx-background-color: rgba(255,255,255,0.06);
+    -fx-pref-height: 1;
+    -fx-max-width: 180;
+    -fx-margin: 8 20;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cbd5e0;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-pref-width: 200;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: white;
+}
+
+.sidebar-button:pressed {
+    -fx-background-color: rgba(255,255,255,0.04);
+    -fx-text-fill: #a0aec0;
+}
+
+.sidebar-version {
+    -fx-text-fill: #4a5568;
+    -fx-font-size: 11px;
+    -fx-padding: 10 20;
+    -fx-alignment: CENTER;
+}
+
+/* ---------- Center Content ---------- */
+.center-content {
+    -fx-background-color: #f0f2f5;
+}
+
+.section-title {
+    -fx-text-fill: #1a202c;
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+}
+
+.section-subtitle {
+    -fx-text-fill: #718096;
+    -fx-font-size: 13px;
+}
+
+.section-separator {
+    -fx-background-color: #e2e8f0;
+    -fx-pref-height: 1;
+}
+
+.scroll-pane {
+    -fx-background-color: #f0f2f5;
+    -fx-border-width: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #f0f2f5;
 }
