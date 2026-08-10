@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.ac.dao.EditorialDAO;
 import org.ac.dao.impl.EditorialDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.Editorial;
 import org.ac.system.Principal;
@@ -79,7 +80,11 @@ public class EditorialController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaEditoriales.setAll(editorialDAO.listarTodos());
+        try {
+            listaEditoriales.setAll(editorialDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

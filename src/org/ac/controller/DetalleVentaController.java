@@ -22,6 +22,7 @@ import org.ac.dao.VentaDAO;
 import org.ac.dao.impl.DetalleVentaDAOImpl;
 import org.ac.dao.impl.LibroDAOImpl;
 import org.ac.dao.impl.VentaDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.DetalleVenta;
 import org.ac.model.Libro;
@@ -94,23 +95,31 @@ public class DetalleVentaController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaDetalles.setAll(detalleVentaDAO.listarTodos());
+        try {
+            listaDetalles.setAll(detalleVentaDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void cargarCombos() {
-        cmbVenta.setItems(FXCollections.observableArrayList(ventaDAO.listarTodos()));
-        cmbVenta.setConverter(new StringConverter<Venta>() {
-            @Override
-            public String toString(Venta venta) {
-                return venta == null ? "" : "Venta #" + venta.getNoVenta();
-            }
+        try {
+            cmbVenta.setItems(FXCollections.observableArrayList(ventaDAO.listarTodos()));
+            cmbVenta.setConverter(new StringConverter<Venta>() {
+                @Override
+                public String toString(Venta venta) {
+                    return venta == null ? "" : "Venta #" + venta.getNoVenta();
+                }
 
-            @Override
-            public Venta fromString(String string) {
-                return null;
-            }
-        });
-        cmbLibro.setItems(FXCollections.observableArrayList(libroDAO.listarTodos()));
+                @Override
+                public Venta fromString(String string) {
+                    return null;
+                }
+            });
+            cmbLibro.setItems(FXCollections.observableArrayList(libroDAO.listarTodos()));
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

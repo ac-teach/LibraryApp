@@ -21,6 +21,7 @@ import org.ac.dao.LibroDAO;
 import org.ac.dao.impl.CategoriaDAOImpl;
 import org.ac.dao.impl.EditorialDAOImpl;
 import org.ac.dao.impl.LibroDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.Categoria;
 import org.ac.model.Editorial;
@@ -104,12 +105,20 @@ public class LibroController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaLibros.setAll(libroDAO.listarTodos());
+        try {
+            listaLibros.setAll(libroDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void cargarCombos() {
-        cmbCategoria.setItems(FXCollections.observableArrayList(categoriaDAO.listarTodos()));
-        cmbEditorial.setItems(FXCollections.observableArrayList(editorialDAO.listarTodos()));
+        try {
+            cmbCategoria.setItems(FXCollections.observableArrayList(categoriaDAO.listarTodos()));
+            cmbEditorial.setItems(FXCollections.observableArrayList(editorialDAO.listarTodos()));
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

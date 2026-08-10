@@ -131,12 +131,15 @@ Desde Apache NetBeans:
 
 ## Rol y permisos
 
-El sistema distingue dos roles:
+El sistema distingue tres roles:
 
 | Rol | Acceso |
 |-----|--------|
-| `admin` | Panel de administración completo |
-| `empleado` | Panel de administración (mismo dashboard en esta versión) |
+| `admin` | Panel de administración completo (usuarios, catálogo, ventas, inventario) |
+| `empleado` | Panel de empleado: inventario y alta de entidades (sin gestión de usuarios) |
+| `cajero` | Panel de cajero: proceso de ventas (nueva venta, detalle, listado) e inventario |
+
+El login redirige a cada rol a su propio dashboard.
 
 ## Backlog y flujo de ramas
 

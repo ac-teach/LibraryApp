@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import org.ac.dao.UsuarioDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.Usuario;
 import org.ac.util.Conexion;
 
@@ -38,7 +39,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error en Iniciar Sesion: " + e.getMessage());
+            throw new DaoException("Error al iniciar sesion: " + e.getMessage(), e);
         }
 
         return usuario;
@@ -59,8 +60,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             int filasAfectadas = consulta.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.err.println("Error en Crear Usuario: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al crear usuario: " + e.getMessage(), e);
         }
     }
 
@@ -80,8 +80,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             int filasAfectadas = consulta.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.err.println("Error en Actualizar Usuario: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar usuario: " + e.getMessage(), e);
         }
     }
 
@@ -96,8 +95,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             int filasAfectadas = consulta.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.err.println("Error en Cambiar Password: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al cambiar password: " + e.getMessage(), e);
         }
     }
 
@@ -111,8 +109,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             int filasAfectadas = consulta.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.err.println("Error en Desactivar Usuario: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al desactivar usuario: " + e.getMessage(), e);
         }
     }
 
@@ -126,8 +123,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             int filasAfectadas = consulta.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.err.println("Error en Eliminar Usuario: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar usuario: " + e.getMessage(), e);
         }
     }
 
@@ -152,7 +148,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 lista.add(u);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar todos los usuarios: " + e.getMessage());
+            throw new DaoException("Error al listar todos los usuarios: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -179,7 +175,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error obtener usuario por id: " + e.getMessage());
+            throw new DaoException("Error al obtener usuario por id: " + e.getMessage(), e);
         }
         return usuario;
     }

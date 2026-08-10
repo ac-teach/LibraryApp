@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.ac.dao.AutorLibroDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.AutorLibro;
 import org.ac.util.Conexion;
 
@@ -26,7 +27,7 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
                 lista.add(al);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar autores_libro: " + e.getMessage());
+            throw new DaoException("Error al listar autores_libro: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -47,7 +48,7 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error buscar autor_libro: " + e.getMessage());
+            throw new DaoException("Error al buscar autor_libro: " + e.getMessage(), e);
         }
         return al;
     }
@@ -61,8 +62,7 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
             consulta.setString(2, autorLibro.getIsbn());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error insertar autor_libro: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al insertar autor_libro: " + e.getMessage(), e);
         }
     }
 
@@ -76,8 +76,7 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
             consulta.setString(3, autorLibro.getIsbn());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error actualizar autor_libro: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar autor_libro: " + e.getMessage(), e);
         }
     }
 
@@ -89,8 +88,7 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
             consulta.setInt(1, idAutorLibro);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error eliminar autor_libro: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar autor_libro: " + e.getMessage(), e);
         }
     }
 }

@@ -22,6 +22,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.ac.dao.UsuarioDAO;
 import org.ac.dao.impl.UsuarioDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.manager.SesionContext;
 import org.ac.model.Usuario;
@@ -114,7 +115,11 @@ public class UsuarioController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaUsuarios.setAll(usuarioDAO.listarTodosUsuarios());
+        try {
+            listaUsuarios.setAll(usuarioDAO.listarTodosUsuarios());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {
@@ -266,6 +271,8 @@ public class UsuarioController implements Initializable {
                 }
             } catch (ValidacionException e) {
                 mostrarAdvertencia(e.getMessage());
+            } catch (DaoException e) {
+                mostrarError(e.getMessage());
             }
         });
     }
@@ -284,11 +291,15 @@ public class UsuarioController implements Initializable {
         if (!confirmar("Desactivar usuario", "¿Desea desactivar al usuario " + seleccion.getUsername() + "?")) {
             return;
         }
-        if (usuarioDAO.desactivarUsuario(seleccion.getId())) {
-            lblMensaje.setText("Usuario desactivado exitosamente.");
-            cargarTabla();
-        } else {
-            mostrarError("No se pudo desactivar el usuario.");
+        try {
+            if (usuarioDAO.desactivarUsuario(seleccion.getId())) {
+                lblMensaje.setText("Usuario desactivado exitosamente.");
+                cargarTabla();
+            } else {
+                mostrarError("No se pudo desactivar el usuario.");
+            }
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
         }
     }
 
@@ -307,11 +318,15 @@ public class UsuarioController implements Initializable {
                 "¿Desea eliminar definitivamente al usuario " + seleccion.getUsername() + "?")) {
             return;
         }
-        if (usuarioDAO.eliminarUsuario(seleccion.getId())) {
-            lblMensaje.setText("Usuario eliminado exitosamente.");
-            cargarTabla();
-        } else {
-            mostrarError("No se pudo eliminar el usuario.");
+        try {
+            if (usuarioDAO.eliminarUsuario(seleccion.getId())) {
+                lblMensaje.setText("Usuario eliminado exitosamente.");
+                cargarTabla();
+            } else {
+                mostrarError("No se pudo eliminar el usuario.");
+            }
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
         }
     }
 

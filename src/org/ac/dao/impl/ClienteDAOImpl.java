@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.ac.dao.ClienteDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.Cliente;
 import org.ac.util.Conexion;
 
@@ -25,7 +26,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                 lista.add(c);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar clientes: " + e.getMessage());
+            throw new DaoException("Error al listar clientes: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -46,7 +47,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error buscar cliente: " + e.getMessage());
+            throw new DaoException("Error al buscar cliente: " + e.getMessage(), e);
         }
         return c;
     }
@@ -61,8 +62,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             consulta.setString(4, cliente.getCorreoElectronico());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error insertar cliente: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al insertar cliente: " + e.getMessage(), e);
         }
     }
 
@@ -76,8 +76,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             consulta.setString(4, cliente.getCorreoElectronico());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error actualizar cliente: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar cliente: " + e.getMessage(), e);
         }
     }
 
@@ -88,8 +87,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             consulta.setLong(1, cui);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error eliminar cliente: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar cliente: " + e.getMessage(), e);
         }
     }
 }

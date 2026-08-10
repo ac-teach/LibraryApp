@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.ac.dao.DetalleVentaDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.DetalleVenta;
 import org.ac.util.Conexion;
 
@@ -28,7 +29,7 @@ public class DetalleVentaDAOImpl implements DetalleVentaDAO {
                 lista.add(dv);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar detalle_venta: " + e.getMessage());
+            throw new DaoException("Error al listar detalle_venta: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -51,7 +52,7 @@ public class DetalleVentaDAOImpl implements DetalleVentaDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error buscar detalle_venta: " + e.getMessage());
+            throw new DaoException("Error al buscar detalle_venta: " + e.getMessage(), e);
         }
         return dv;
     }
@@ -67,8 +68,7 @@ public class DetalleVentaDAOImpl implements DetalleVentaDAO {
             consulta.setDouble(4, detalleVenta.getPrecio());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error insertar detalle_venta: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al insertar detalle_venta: " + e.getMessage(), e);
         }
     }
 
@@ -84,8 +84,7 @@ public class DetalleVentaDAOImpl implements DetalleVentaDAO {
             consulta.setDouble(5, detalleVenta.getPrecio());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error actualizar detalle_venta: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar detalle_venta: " + e.getMessage(), e);
         }
     }
 
@@ -97,8 +96,7 @@ public class DetalleVentaDAOImpl implements DetalleVentaDAO {
             consulta.setInt(1, idDetalleVenta);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error eliminar detalle_venta: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar detalle_venta: " + e.getMessage(), e);
         }
     }
 }

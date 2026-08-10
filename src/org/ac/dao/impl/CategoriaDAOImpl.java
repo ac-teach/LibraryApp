@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.ac.dao.CategoriaDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.Categoria;
 import org.ac.util.Conexion;
 
@@ -25,7 +26,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
                 lista.add(c);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar categorias: " + e.getMessage());
+            throw new DaoException("Error al listar categorias: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -45,7 +46,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error buscar categoria: " + e.getMessage());
+            throw new DaoException("Error al buscar categoria: " + e.getMessage(), e);
         }
         return c;
     }
@@ -58,8 +59,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             consulta.setString(1, categoria.getNombreCategoria());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error insertar categoria: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al insertar categoria: " + e.getMessage(), e);
         }
     }
 
@@ -72,8 +72,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             consulta.setString(2, categoria.getNombreCategoria());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error actualizar categoria: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar categoria: " + e.getMessage(), e);
         }
     }
 
@@ -85,8 +84,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             consulta.setInt(1, idCategoria);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error eliminar categoria: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar categoria: " + e.getMessage(), e);
         }
     }
 }

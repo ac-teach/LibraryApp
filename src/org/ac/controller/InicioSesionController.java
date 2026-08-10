@@ -3,6 +3,7 @@ package org.ac.controller;
 import java.io.IOException;
 import org.ac.dao.UsuarioDAO;
 import org.ac.dao.impl.UsuarioDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.util.SecurityUtil;
 import org.ac.model.Usuario;
@@ -59,6 +60,9 @@ public class InicioSesionController implements Initializable {
         } catch (ValidacionException e) {
             mostrarAlerta(Alert.AlertType.WARNING, e.getMessage());
             lblMensaje.setText(e.getMessage());
+        } catch (DaoException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, e.getMessage());
+            lblMensaje.setText("Error al iniciar sesión");
         }
     }
 
@@ -81,8 +85,15 @@ public class InicioSesionController implements Initializable {
                 rutaFXML = "/org/ac/view/fxml/AdminDashboradView.fxml";
                 break;
             case "empleado":
-                rutaFXML = "/org/ac/view/fxml/AdminDashboradView.fxml";
+                rutaFXML = "/org/ac/view/fxml/EmpleadoView.fxml";
                 break;
+            case "cajero":
+                rutaFXML = "/org/ac/view/fxml/CajeroView.fxml";
+                break;
+            default:
+                mostrarAlerta(Alert.AlertType.ERROR, "Rol desconocido: " + usuario.getRol());
+                SesionContext.getInstancia().cerrarSesion();
+                return;
         }
         try {
             Principal.cambiarEscena(rutaFXML);

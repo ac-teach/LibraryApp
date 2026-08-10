@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.ac.dao.LibroDAO;
 import org.ac.dao.impl.LibroDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.model.Libro;
 import org.ac.system.Principal;
 
@@ -52,7 +53,11 @@ public class InventarioController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaLibros.setAll(libroDAO.listarTodos());
+        try {
+            listaLibros.setAll(libroDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

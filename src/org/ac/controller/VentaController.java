@@ -21,6 +21,7 @@ import org.ac.dao.VentaDAO;
 import org.ac.dao.impl.ClienteDAOImpl;
 import org.ac.dao.impl.LibroDAOImpl;
 import org.ac.dao.impl.VentaDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.manager.SesionContext;
 import org.ac.model.Cliente;
@@ -80,8 +81,12 @@ public class VentaController implements Initializable {
     }
 
     private void cargarCombos() {
-        cmbCliente.setItems(FXCollections.observableArrayList(clienteDAO.listarTodos()));
-        cmbLibro.setItems(FXCollections.observableArrayList(libroDAO.listarTodos()));
+        try {
+            cmbCliente.setItems(FXCollections.observableArrayList(clienteDAO.listarTodos()));
+            cmbLibro.setItems(FXCollections.observableArrayList(libroDAO.listarTodos()));
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarTabla() {

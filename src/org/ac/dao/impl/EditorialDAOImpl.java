@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.ac.dao.EditorialDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.Editorial;
 import org.ac.util.Conexion;
 
@@ -27,7 +28,7 @@ public class EditorialDAOImpl implements EditorialDAO {
                 lista.add(e);
             }
         } catch (SQLException ex) {
-            System.err.println("Error listar editoriales: " + ex.getMessage());
+            throw new DaoException("Error al listar editoriales: " + ex.getMessage(), ex);
         }
         return lista;
     }
@@ -49,7 +50,7 @@ public class EditorialDAOImpl implements EditorialDAO {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println("Error buscar editorial: " + ex.getMessage());
+            throw new DaoException("Error al buscar editorial: " + ex.getMessage(), ex);
         }
         return e;
     }
@@ -65,8 +66,7 @@ public class EditorialDAOImpl implements EditorialDAO {
             consulta.setString(4, editorial.getDireccionEditoria());
             return consulta.executeUpdate() > 0;
         } catch (SQLException ex) {
-            System.err.println("Error insertar editorial: " + ex.getMessage());
-            return false;
+            throw new DaoException("Error al insertar editorial: " + ex.getMessage(), ex);
         }
     }
 
@@ -81,8 +81,7 @@ public class EditorialDAOImpl implements EditorialDAO {
             consulta.setString(4, editorial.getDireccionEditoria());
             return consulta.executeUpdate() > 0;
         } catch (SQLException ex) {
-            System.err.println("Error actualizar editorial: " + ex.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar editorial: " + ex.getMessage(), ex);
         }
     }
 
@@ -94,8 +93,7 @@ public class EditorialDAOImpl implements EditorialDAO {
             consulta.setString(1, nit);
             return consulta.executeUpdate() > 0;
         } catch (SQLException ex) {
-            System.err.println("Error eliminar editorial: " + ex.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar editorial: " + ex.getMessage(), ex);
         }
     }
 }

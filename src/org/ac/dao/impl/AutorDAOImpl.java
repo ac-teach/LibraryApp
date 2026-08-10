@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.ac.dao.AutorDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.Autor;
 import org.ac.util.Conexion;
 
@@ -28,7 +29,7 @@ public class AutorDAOImpl implements AutorDAO {
                 lista.add(a);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar autores: " + e.getMessage());
+            throw new DaoException("Error al listar autores: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -51,7 +52,7 @@ public class AutorDAOImpl implements AutorDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error buscar autor: " + e.getMessage());
+            throw new DaoException("Error al buscar autor: " + e.getMessage(), e);
         }
         return a;
     }
@@ -67,8 +68,7 @@ public class AutorDAOImpl implements AutorDAO {
             consulta.setString(4, autor.getBiografia());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error insertar autor: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al insertar autor: " + e.getMessage(), e);
         }
     }
 
@@ -84,8 +84,7 @@ public class AutorDAOImpl implements AutorDAO {
             consulta.setString(5, autor.getBiografia());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error actualizar autor: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar autor: " + e.getMessage(), e);
         }
     }
 
@@ -97,8 +96,7 @@ public class AutorDAOImpl implements AutorDAO {
             consulta.setInt(1, idAutor);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error eliminar autor: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar autor: " + e.getMessage(), e);
         }
     }
 }

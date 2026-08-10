@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.ac.dao.AutorDAO;
 import org.ac.dao.impl.AutorDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.Autor;
 import org.ac.system.Principal;
@@ -84,7 +85,11 @@ public class AutorController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaAutores.setAll(autorDAO.listarTodos());
+        try {
+            listaAutores.setAll(autorDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

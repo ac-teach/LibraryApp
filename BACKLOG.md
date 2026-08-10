@@ -45,6 +45,17 @@ Lista de tareas para replicar el proyecto desde cero. Cada funcionalidad se impl
 | 22 | **Inventario** — `InventarioController` + `InventarioView` de existencias. | `feature/inventario` | Se muestra el stock disponible por libro. |
 | 23 | **Estilos CSS** — `base.css` y estilos del dashboard; limpiar CSS de login. | `feature/estilos` | La app se ve coherente en todas las vistas. |
 
+## Fase 4: Mejoras finales
+
+| # | Tarea | Rama sugerida | Criterios de aceptación |
+|---|-------|--------------|--------------------------|
+| 24 | **Credenciales externalizadas** — `Conexion` lee `db.url/db.user/db.password` desde `src/db.properties` (gitignored) con plantilla `db.properties.example` versionada. | `feature/db-properties` | **HECHO** (commit `f325167`) — no hay credenciales en código versionado; si falta el archivo, la app falla con mensaje claro. |
+| 25 | **Normalización de fin de línea** — `.gitattributes` con `eol=lf` para texto y `binary` para assets. | `chore/line-endings` | **HECHO** (commit `0f61cd3`) — `git diff` ya no muestra ruido CRLF/LF. |
+| 26 | **Dashboards por rol** — vistas FXML + controladores para `empleado` (inventario + alta de entidades, sin usuarios) y `cajero` (proceso de ventas); el login redirige según rol. | `feature/dashboards-rol` | Con cada rol el login abre su dashboard; el empleado no ve usuarios; el cajero no ve CRUD de entidades. |
+| 27 | **Errores no tragados** — `DaoException` en la capa DAO: los `DAOImpl` lanzan en vez de devolver `false/null` en silencio; los controladores muestran alerta con el mensaje. | `feature/dao-exception` | Si la BD está caída o falla un SP, la UI muestra un error claro (no una tabla vacía ni un `false` mudo). |
+| 28 | **Scripts SQL versionados** — DDL + procedimientos almacenados + datos semilla en `sql/` (fuera de `src/` para no copiarse al classpath). | `feature/sql-scripts` | La BD se puede recrear desde cero con `mysql < sql/01-schema.sql` etc. |
+| 29 | **Refactor de duplicación en DAOs** — helper `JdbcTemplate` + `RowMapper` en `org.ac.util`; los `DAOImpl` pasan a ser declarativos (solo SP + mapeo). | `refactor/dao-template` | El boilerplate de conexión/`prepareCall` vive en un solo lugar; cada `DAOImpl` reduce ~40% de código. |
+
 ## Convenciones para quien replique
 
 - **Flujo por rama**: `git checkout -b <rama>` → implementar → merge a `develop` (o `main`), siguiendo el orden de dependencias (no se puede hacer `crud-libros` sin `conexion-db`, `estructura-db` y `patron-dao`).

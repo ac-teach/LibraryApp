@@ -21,6 +21,7 @@ import org.ac.dao.LibroDAO;
 import org.ac.dao.impl.AutorDAOImpl;
 import org.ac.dao.impl.AutorLibroDAOImpl;
 import org.ac.dao.impl.LibroDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.Autor;
 import org.ac.model.AutorLibro;
@@ -83,12 +84,20 @@ public class AutorLibroController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaAutoresLibro.setAll(autorLibroDAO.listarTodos());
+        try {
+            listaAutoresLibro.setAll(autorLibroDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void cargarCombos() {
-        cmbAutor.setItems(FXCollections.observableArrayList(autorDAO.listarTodos()));
-        cmbLibro.setItems(FXCollections.observableArrayList(libroDAO.listarTodos()));
+        try {
+            cmbAutor.setItems(FXCollections.observableArrayList(autorDAO.listarTodos()));
+            cmbLibro.setItems(FXCollections.observableArrayList(libroDAO.listarTodos()));
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

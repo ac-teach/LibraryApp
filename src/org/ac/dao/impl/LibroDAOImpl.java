@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.ac.dao.LibroDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.Libro;
 import org.ac.util.Conexion;
 
@@ -30,7 +31,7 @@ public class LibroDAOImpl implements LibroDAO {
                 lista.add(l);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar libros: " + e.getMessage());
+            throw new DaoException("Error al listar libros: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -55,7 +56,7 @@ public class LibroDAOImpl implements LibroDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error buscar libro: " + e.getMessage());
+            throw new DaoException("Error al buscar libro: " + e.getMessage(), e);
         }
         return l;
     }
@@ -74,8 +75,7 @@ public class LibroDAOImpl implements LibroDAO {
             consulta.setInt(7, libro.getStock());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error insertar libro: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al insertar libro: " + e.getMessage(), e);
         }
     }
 
@@ -93,8 +93,7 @@ public class LibroDAOImpl implements LibroDAO {
             consulta.setInt(7, libro.getStock());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error actualizar libro: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar libro: " + e.getMessage(), e);
         }
     }
 
@@ -106,8 +105,7 @@ public class LibroDAOImpl implements LibroDAO {
             consulta.setString(1, isbn);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error eliminar libro: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar libro: " + e.getMessage(), e);
         }
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.ac.dao.DetalleVentaDAO;
 import org.ac.dao.VentaDAO;
+import org.ac.exception.DaoException;
 import org.ac.model.DetalleVenta;
 import org.ac.model.LineaVenta;
 import org.ac.model.Venta;
@@ -35,7 +36,7 @@ public class VentaDAOImpl implements VentaDAO {
                 lista.add(v);
             }
         } catch (SQLException e) {
-            System.err.println("Error listar ventas: " + e.getMessage());
+            throw new DaoException("Error al listar ventas: " + e.getMessage(), e);
         }
         return lista;
     }
@@ -58,7 +59,7 @@ public class VentaDAOImpl implements VentaDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error buscar venta: " + e.getMessage());
+            throw new DaoException("Error al buscar venta: " + e.getMessage(), e);
         }
         return v;
     }
@@ -73,8 +74,7 @@ public class VentaDAOImpl implements VentaDAO {
             consulta.setInt(3, venta.getIdUsuario());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error insertar venta: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al insertar venta: " + e.getMessage(), e);
         }
     }
 
@@ -88,8 +88,7 @@ public class VentaDAOImpl implements VentaDAO {
             consulta.setLong(3, venta.getCuiCliente());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error actualizar venta: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al actualizar venta: " + e.getMessage(), e);
         }
     }
 
@@ -115,24 +114,15 @@ public class VentaDAOImpl implements VentaDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error insertar venta: " + e.getMessage());
-            return -1;
+            throw new DaoException("Error al insertar venta: " + e.getMessage(), e);
         }
 
         if (noVenta > 0) {
-            boolean completo = true;
             for (LineaVenta linea : lineas) {
                 DetalleVenta detalle = new DetalleVenta(0, noVenta,
                         linea.getIsbn(), linea.getCantidad(), linea.getPrecio());
-                if (!detalleVentaDAO.crear(detalle)) {
-                    completo = false;
-                }
-                if (!descontarStock(linea.getIsbn(), linea.getCantidad())) {
-                    completo = false;
-                }
-            }
-            if (!completo) {
-                System.err.println("Venta " + noVenta + " registrada con detalles incompletos.");
+                detalleVentaDAO.crear(detalle);
+                descontarStock(linea.getIsbn(), linea.getCantidad());
             }
         }
         return noVenta;
@@ -146,8 +136,7 @@ public class VentaDAOImpl implements VentaDAO {
             consulta.setInt(2, cantidad);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error descontar stock: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al descontar stock: " + e.getMessage(), e);
         }
     }
 
@@ -159,8 +148,7 @@ public class VentaDAOImpl implements VentaDAO {
             consulta.setInt(1, noVenta);
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error eliminar venta: " + e.getMessage());
-            return false;
+            throw new DaoException("Error al eliminar venta: " + e.getMessage(), e);
         }
     }
 }

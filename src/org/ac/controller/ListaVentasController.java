@@ -19,6 +19,7 @@ import org.ac.dao.ClienteDAO;
 import org.ac.dao.VentaDAO;
 import org.ac.dao.impl.ClienteDAOImpl;
 import org.ac.dao.impl.VentaDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.manager.SesionContext;
 import org.ac.model.Cliente;
@@ -86,11 +87,19 @@ public class ListaVentasController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaVentas.setAll(ventaDAO.listarTodos());
+        try {
+            listaVentas.setAll(ventaDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void cargarClientes() {
-        cmbCliente.setItems(FXCollections.observableArrayList(clienteDAO.listarTodos()));
+        try {
+            cmbCliente.setItems(FXCollections.observableArrayList(clienteDAO.listarTodos()));
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

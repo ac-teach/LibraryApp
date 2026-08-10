@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.ac.dao.CategoriaDAO;
 import org.ac.dao.impl.CategoriaDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.Categoria;
 import org.ac.system.Principal;
@@ -68,7 +69,11 @@ public class CategoriaController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaCategorias.setAll(categoriaDAO.listarTodos());
+        try {
+            listaCategorias.setAll(categoriaDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

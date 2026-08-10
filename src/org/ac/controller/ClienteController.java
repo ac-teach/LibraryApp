@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.ac.dao.ClienteDAO;
 import org.ac.dao.impl.ClienteDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.Cliente;
 import org.ac.system.Principal;
@@ -79,7 +80,11 @@ public class ClienteController implements Initializable {
     }
 
     private void cargarTabla() {
-        listaClientes.setAll(clienteDAO.listarTodos());
+        try {
+            listaClientes.setAll(clienteDAO.listarTodos());
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
     }
 
     private void configurarBusqueda() {

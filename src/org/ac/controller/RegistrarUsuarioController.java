@@ -14,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.ac.dao.UsuarioDAO;
 import org.ac.dao.impl.UsuarioDAOImpl;
+import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.model.Usuario;
 import org.ac.system.Principal;
@@ -79,6 +80,9 @@ public class RegistrarUsuarioController implements Initializable {
             lblMensaje.setText(e.getMessage());
         } catch (IOException e) {
             System.err.println("Error al volver al login: " + e.getMessage());
+        } catch (DaoException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, e.getMessage());
+            lblMensaje.setText("Error al registrar");
         }
     }
 
