@@ -254,7 +254,7 @@ public class ListaVentasController implements Initializable {
     @FXML
     private void handleVolver() {
         try {
-            Principal.cambiarEscena("/org/ac/view/fxml/AdminDashboradView.fxml");
+            Principal.cambiarEscena(Principal.rutaDashboardSegunRol());
         } catch (Exception e) {
             mostrarError("Error al volver al menú: " + e.getMessage());
         }

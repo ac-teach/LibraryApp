@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.logging.Logger;
+import org.ac.manager.SesionContext;
+import org.ac.model.Usuario;
 
 public class Principal extends Application {
 
@@ -24,6 +26,28 @@ public class Principal extends Application {
         escenarioPrincipal.sizeToScene();
         escenarioPrincipal.centerOnScreen();
         escenarioPrincipal.show();
+    }
+
+    /**
+     * Devuelve la ruta del dashboard correspondiente al rol del usuario con
+     * sesion activa. Si no hay sesion o el rol es desconocido, devuelve la
+     * ruta del login.
+     */
+    public static String rutaDashboardSegunRol() {
+        Usuario usuario = SesionContext.getInstancia().getUsuarioActual();
+        if (usuario == null || usuario.getRol() == null) {
+            return "/org/ac/view/fxml/InicioSesionView.fxml";
+        }
+        switch (usuario.getRol().toLowerCase()) {
+            case "admin":
+                return "/org/ac/view/fxml/AdminDashboradView.fxml";
+            case "empleado":
+                return "/org/ac/view/fxml/EmpleadoView.fxml";
+            case "cajero":
+                return "/org/ac/view/fxml/CajeroView.fxml";
+            default:
+                return "/org/ac/view/fxml/InicioSesionView.fxml";
+        }
     }
 
     public static void main(String[] args) {
