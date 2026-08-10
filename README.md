@@ -73,21 +73,24 @@ El proyecto sigue una arquitectura por capas que separa responsabilidades:
 
 ```
 LibraryApp/
-├── src/org/ac/
-│   ├── controller/       # Controladores JavaFX de cada vista
-│   ├── dao/              # Interfaces de acceso a datos
-│   │   └── impl/         # Implementaciones con MySQL
-│   ├── exception/        # ValidacionException (validaciones centralizadas)
-│   ├── manager/          # SesionContext (sesión del usuario)
-│   ├── model/            # Entidades del dominio
-│   ├── system/           # Principal (punto de entrada y navegación)
-│   ├── util/             # Conexion, SecurityUtil (hash SHA-256)
-│   └── view/
-│       ├── fxml/         # Vistas FXML
-│       └── style/        # Hojas de estilo CSS
-├── test/                 # Pruebas
-├── nbproject/            # Configuración de NetBeans
-└── build.xml             # Script Ant
+├── src/
+│   ├── db.properties            # Credenciales locales (NO versionado)
+│   └── org/ac/
+│       ├── controller/          # Controladores JavaFX de cada vista
+│       ├── dao/                 # Interfaces de acceso a datos
+│       │   └── impl/            # Implementaciones con MySQL
+│       ├── exception/           # ValidacionException (validaciones centralizadas)
+│       ├── manager/             # SesionContext (sesión del usuario)
+│       ├── model/               # Entidades del dominio
+│       ├── system/              # Principal (punto de entrada y navegación)
+│       ├── util/                # Conexion, SecurityUtil (hash SHA-256)
+│       └── view/
+│           ├── fxml/            # Vistas FXML
+│           └── style/           # Hojas de estilo CSS
+├── test/                        # Pruebas
+├── nbproject/                   # Configuración de NetBeans
+├── db.properties.example        # Plantilla de credenciales (versionada)
+└── build.xml                    # Script Ant
 ```
 
 ## Requisitos
@@ -99,15 +102,21 @@ LibraryApp/
 
 ## Configuración de la base de datos
 
-La conexión se define en `src/org/ac/util/Conexion.java`:
+La conexión se lee desde `src/db.properties` (recurso copiado al classpath en la compilación):
 
-```java
-URL      = jdbc:mysql://localhost:3306/libreriadb_in4cm?serverTimezone=UTC
-USER     = profesor
-PASSWORD = kinal
+```properties
+db.url=jdbc:mysql://localhost:3306/libreriadb_in4cm?serverTimezone=UTC
+db.user=TU_USUARIO
+db.password=TU_CONTRASEÑA
 ```
 
-> Ajusta estos valores según tu entorno. No expongas credenciales reales en repositorios públicos.
+Para configurar tu entorno:
+
+1. Copia `db.properties.example` como `src/db.properties`.
+2. Ajusta los valores (URL, usuario y contraseña de tu MySQL).
+3. Recompila para que el archivo se copie a `build/classes`.
+
+> `src/db.properties` está en `.gitignore` y **no se versiona**: no subas credenciales reales al repositorio. Si el archivo falta o está incompleto, `Conexion` lanza un error claro al arrancar.
 
 La base de datos `libreriadb_in4cm` debe contener las tablas y procedimientos almacenados (`sp_iniciar_sesion`, `sp_crear_usuario`, `sp_*` de cada módulo) que invocan los DAO. El plan de estructura y datos se puede reproducir siguiendo el backlog (tarea 3 de `BACKLOG.md`).
 
