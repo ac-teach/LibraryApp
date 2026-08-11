@@ -65,6 +65,7 @@ Correcciones de bugs que surgen durante el desarrollo y no estaban registradas e
 |---|-----|------|------------------------|
 | F1 | **Volver al dashboard según rol** — el botón "volver" de las vistas hardcodeaba `AdminDashboradView.fxml`; ahora `Principal.rutaDashboardSegunRol()` centraliza el mapeo rol → dashboard (admin/empleado/cajero) y el login reutiliza el mismo punto único de verdad. | `feature/volver-dashboard-rol` | **HECHO** (commit `af0ef12`, merge en `debed3a`) — complementa la tarea 26, que quedó completa en `9830f04`. Con cada rol el botón volver regresa al dashboard correspondiente. |
 | F2 | **SP faltante `sp_descontar_stock`** — procedimiento almacenado que resta stock al inventario; valida cantidad positiva, existencia del libro y disponibilidad, con mensajes de error diferenciados (`SIGNAL` por caso); no estaba en los scripts SQL versionados. | `sql/03-update-schema-data.sql` | **HECHO** (cambio pendiente de commit) — el SP existe en el script y queda disponible para la gestión de ventas/inventario. |
+| F3 | **Edición de ventas con fecha y usuario** — `ListaVentasView` permitía editar solo total y cliente; se agregó un `DatePicker` de fecha (con `sp_actualizar_venta` ampliado para actualizarla) y se muestra en solo lectura el usuario que atendió (vía `LEFT JOIN` a `usuarios` en `sp_listar_ventas`/`sp_buscar_venta`). | `feature/ventas` | **HECHO** — el formulario edita fecha, total y cliente; el campo usuario queda deshabilitado como dato informativo. |
 
 ## Convenciones para quien replique
 

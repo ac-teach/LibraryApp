@@ -33,6 +33,7 @@ public class VentaDAOImpl implements VentaDAO {
                 v.setTotalVenta(rs.getDouble("total_venta"));
                 v.setCuiCliente(rs.getLong("cui_cliente"));
                 v.setIdUsuario(rs.getInt("id_usuario"));
+                v.setNombreUsuario(rs.getString("nombre_usuario"));
                 lista.add(v);
             }
         } catch (SQLException e) {
@@ -56,6 +57,7 @@ public class VentaDAOImpl implements VentaDAO {
                     v.setTotalVenta(rs.getDouble("total_venta"));
                     v.setCuiCliente(rs.getLong("cui_cliente"));
                     v.setIdUsuario(rs.getInt("id_usuario"));
+                    v.setNombreUsuario(rs.getString("nombre_usuario"));
                 }
             }
         } catch (SQLException e) {
@@ -80,12 +82,17 @@ public class VentaDAOImpl implements VentaDAO {
 
     @Override
     public boolean actualizar(Venta venta) {
-        String sql = "{call sp_actualizar_venta(?,?,?)}";
+        String sql = "{call sp_actualizar_venta(?,?,?,?)}";
         try (Connection conexion = Conexion.getInstancia().conectar();
                 CallableStatement consulta = conexion.prepareCall(sql)) {
             consulta.setInt(1, venta.getNoVenta());
-            consulta.setDouble(2, venta.getTotalVenta());
-            consulta.setLong(3, venta.getCuiCliente());
+            if (venta.getFechaVenta() == null || venta.getFechaVenta().isEmpty()) {
+                consulta.setNull(2, java.sql.Types.DATE);
+            } else {
+                consulta.setDate(2, java.sql.Date.valueOf(venta.getFechaVenta().substring(0, 10)));
+            }
+            consulta.setDouble(3, venta.getTotalVenta());
+            consulta.setLong(4, venta.getCuiCliente());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DaoException("Error al actualizar venta: " + e.getMessage(), e);
@@ -129,7 +136,7 @@ public class VentaDAOImpl implements VentaDAO {
     }
 
     private boolean descontarStock(String isbn, int cantidad) {
-        String sql = "{call sp_descontarstock(?,?)}";
+        String sql = "{call sp_descontar_stock(?,?)}";
         try (Connection conexion = Conexion.getInstancia().conectar();
                 CallableStatement consulta = conexion.prepareCall(sql)) {
             consulta.setString(1, isbn);

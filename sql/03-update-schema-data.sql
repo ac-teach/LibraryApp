@@ -152,12 +152,18 @@ delimiter $$
 
 create procedure sp_listar_ventas()
 begin
-    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario from ventas;
+    select v.no_venta, v.fecha_venta, v.total_venta, v.cui_cliente, v.id_usuario,
+           concat(u.first_name, ' ', u.last_name) as nombre_usuario
+    from ventas v
+    left join usuarios u on v.id_usuario = u.id_usuario;
 end $$
 create procedure sp_buscar_venta(in _no int)
 begin
-    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario 
-    from ventas where no_venta = _no;
+    select v.no_venta, v.fecha_venta, v.total_venta, v.cui_cliente, v.id_usuario,
+           concat(u.first_name, ' ', u.last_name) as nombre_usuario
+    from ventas v
+    left join usuarios u on v.id_usuario = u.id_usuario
+    where v.no_venta = _no;
 end $$
 
 
@@ -171,12 +177,13 @@ begin
 end $$
 
 create procedure sp_actualizar_venta(
-	in _no int, 
-    in _total decimal(8,2), 
+	in _no int,
+    in _fecha date,
+    in _total decimal(8,2),
     in _cui bigint)
 begin
-    update ventas 
-    set total_venta = _total, cui_cliente = _cui
+    update ventas
+    set fecha_venta = _fecha, total_venta = _total, cui_cliente = _cui
     where no_venta = _no;
 end $$
 
@@ -501,3 +508,33 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- ============================================================================
+-- PROCEDIMIENTO PARA GENERAR LA FACTURA (fusion venta + detalle + cliente + libro + usuario)
+-- ============================================================================
+delimiter $$
+
+create procedure sp_buscar_factura(in _no_venta int)
+begin
+    select
+        v.no_venta as numero_factura,
+        v.fecha_venta as fecha_emision,
+        c.cui as cui_cliente,
+        concat(c.nombre_cliente, ' ', c.apellido_cliente) as nombre_cliente,
+        c.correo_electronico as correo_cliente,
+        l.isbn as isbn_libro,
+        l.titulo as titulo_libro,
+        dv.cantidad as cantidad,
+        dv.precio_unitario as precio_unitario,
+        (dv.cantidad * dv.precio_unitario) as subtotal,
+        concat(u.first_name, ' ', u.last_name) as usuario_atendio,
+        v.total_venta as gran_total
+    from ventas v
+    inner join clientes c on v.cui_cliente = c.cui
+    inner join detalle_venta dv on v.no_venta = dv.no_venta
+    inner join libros l on dv.isbn = l.isbn
+    inner join usuarios u on v.id_usuario = u.id_usuario
+    where v.no_venta = _no_venta;
+end $$
+
+delimiter ;

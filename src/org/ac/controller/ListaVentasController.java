@@ -1,6 +1,7 @@
 package org.ac.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,6 +32,10 @@ public class ListaVentasController implements Initializable {
 
     @FXML
     private TextField txtTotal;
+    @FXML
+    private DatePicker dpFecha;
+    @FXML
+    private TextField txtUsuario;
     @FXML
     private ComboBox<Cliente> cmbCliente;
     @FXML
@@ -133,6 +139,19 @@ public class ListaVentasController implements Initializable {
                             }
                         }
                         desactivarFormulario();
+                        String fecha = newSelection.getFechaVenta();
+                        if (fecha != null && !fecha.isEmpty()) {
+                            try {
+                                dpFecha.setValue(LocalDate.parse(fecha.substring(0, 10)));
+                            } catch (Exception e) {
+                                dpFecha.setValue(null);
+                            }
+                        } else {
+                            dpFecha.setValue(null);
+                        }
+                        txtUsuario.setText(newSelection.getNombreUsuario() != null
+                                ? newSelection.getNombreUsuario()
+                                : String.valueOf(newSelection.getIdUsuario()));
                     }
                 });
     }
@@ -147,7 +166,7 @@ public class ListaVentasController implements Initializable {
 
             Venta venta = new Venta(
                     modoEdicion ? enEdicion.getNoVenta() : 0,
-                    null,
+                    dpFecha.getValue() != null ? dpFecha.getValue().toString() : null,
                     Double.parseDouble(txtTotal.getText().trim()),
                     cmbCliente.getValue().getCui(),
                     SesionContext.getInstancia().getUsuarioActual().getId());
@@ -198,6 +217,7 @@ public class ListaVentasController implements Initializable {
         desactivarNavegacion();
         tablaVentas.getSelectionModel().clearSelection();
         lblMensaje.setText("");
+        dpFecha.setValue(LocalDate.now());
         txtTotal.requestFocus();
     }
 
@@ -252,6 +272,21 @@ public class ListaVentasController implements Initializable {
     }
 
     @FXML
+    private void handleVerFactura() {
+        Venta seleccion = tablaVentas.getSelectionModel().getSelectedItem();
+        if (seleccion == null) {
+            mostrarError("Seleccione una venta de la tabla para ver su factura.");
+            return;
+        }
+        FacturaController.setNoVentaSeleccionada(seleccion.getNoVenta());
+        try {
+            Principal.cambiarEscena("/org/ac/view/fxml/FacturaView.fxml");
+        } catch (Exception e) {
+            mostrarError("Error al abrir la factura: " + e.getMessage());
+        }
+    }
+
+    @FXML
     private void handleVolver() {
         try {
             Principal.cambiarEscena(Principal.rutaDashboardSegunRol());
@@ -262,16 +297,21 @@ public class ListaVentasController implements Initializable {
 
     private void limpiarFormulario() {
         txtTotal.clear();
+        dpFecha.setValue(null);
+        txtUsuario.clear();
         cmbCliente.setValue(null);
     }
 
     private void activarFormulario() {
         txtTotal.setDisable(false);
+        dpFecha.setDisable(false);
         cmbCliente.setDisable(false);
     }
 
     private void desactivarFormulario() {
         txtTotal.setDisable(true);
+        dpFecha.setDisable(true);
+        txtUsuario.setDisable(true);
         cmbCliente.setDisable(true);
     }
 

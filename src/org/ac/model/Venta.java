@@ -6,6 +6,7 @@ public class Venta {
     private double totalVenta;
     private long cuiCliente;
     private int idUsuario;
+    private String nombreUsuario;
 
     public Venta() {
     }
@@ -56,5 +57,13 @@ public class Venta {
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 }
