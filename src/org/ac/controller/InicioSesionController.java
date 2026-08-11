@@ -39,6 +39,10 @@ public class InicioSesionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         usuarioDAO = new UsuarioDAOImpl();
         lblMensaje.setText("");
+        //Deteccion de teclado: Enter en usuario o contrasena dispara el login,
+        //igual que el boton INICIAR.
+        txtUsuario.setOnAction(this::eventoInicioSesion);
+        txtPassword.setOnAction(this::eventoInicioSesion);
     }
 
     @FXML

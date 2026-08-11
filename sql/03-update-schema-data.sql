@@ -175,10 +175,11 @@ create procedure sp_actualizar_venta(
 	in _no int,
     in _fecha date,
     in _total decimal(8,2),
-    in _cui bigint)
+    in _cui bigint,
+    in _id_usuario int)
 begin
     update ventas
-    set fecha_venta = _fecha, total_venta = _total, cui_cliente = _cui
+    set fecha_venta = _fecha, total_venta = _total, cui_cliente = _cui, id_usuario = _id_usuario
     where no_venta = _no;
 end $$
 

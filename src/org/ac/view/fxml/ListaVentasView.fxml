@@ -27,7 +27,7 @@
             <TextField fx:id="txtTotal" disable="true" prefHeight="30.0" promptText="Total de la venta" />
             <ComboBox fx:id="cmbCliente" disable="true" prefHeight="30.0" promptText="Cliente" />
             <DatePicker fx:id="dpFecha" prefHeight="30.0" promptText="Fecha de la venta" />
-            <TextField fx:id="txtUsuario" disable="true" prefHeight="30.0" promptText="Usuario que atendió" />
+            <ComboBox fx:id="cmbUsuario" disable="true" prefHeight="30.0" promptText="Usuario que atendió" />
             <HBox spacing="10">
                 <Button fx:id="btnNuevo" onAction="#handleNuevo" prefWidth="120" text="Nuevo" />
                 <Button fx:id="btnEditar" onAction="#handleEditar" prefWidth="120" text="Editar" />

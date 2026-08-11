@@ -17,14 +17,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 import org.ac.dao.ClienteDAO;
+import org.ac.dao.UsuarioDAO;
 import org.ac.dao.VentaDAO;
 import org.ac.dao.impl.ClienteDAOImpl;
+import org.ac.dao.impl.UsuarioDAOImpl;
 import org.ac.dao.impl.VentaDAOImpl;
 import org.ac.exception.DaoException;
 import org.ac.exception.ValidacionException;
 import org.ac.manager.SesionContext;
 import org.ac.model.Cliente;
+import org.ac.model.Usuario;
 import org.ac.model.Venta;
 import org.ac.system.Principal;
 
@@ -35,7 +39,7 @@ public class ListaVentasController implements Initializable {
     @FXML
     private DatePicker dpFecha;
     @FXML
-    private TextField txtUsuario;
+    private ComboBox<Usuario> cmbUsuario;
     @FXML
     private ComboBox<Cliente> cmbCliente;
     @FXML
@@ -71,6 +75,7 @@ public class ListaVentasController implements Initializable {
     private Venta enEdicion;
     private final VentaDAO ventaDAO = new VentaDAOImpl();
     private final ClienteDAO clienteDAO = new ClienteDAOImpl();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
     private final ObservableList<Venta> listaVentas = FXCollections.observableArrayList();
     private final FilteredList<Venta> ventasFiltradas = new FilteredList<>(listaVentas, p -> true);
 
@@ -78,6 +83,7 @@ public class ListaVentasController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         cargarTabla();
         cargarClientes();
+        cargarUsuarios();
         tablaVentas.setItems(ventasFiltradas);
         seleccionarFila();
         configurarTabla();
@@ -103,6 +109,25 @@ public class ListaVentasController implements Initializable {
     private void cargarClientes() {
         try {
             cmbCliente.setItems(FXCollections.observableArrayList(clienteDAO.listarTodos()));
+        } catch (DaoException e) {
+            mostrarError(e.getMessage());
+        }
+    }
+
+    private void cargarUsuarios() {
+        cmbUsuario.setConverter(new StringConverter<Usuario>() {
+            @Override
+            public String toString(Usuario usuario) {
+                return usuario == null ? "" : usuario.getId() + " - " + usuario.getUsername();
+            }
+
+            @Override
+            public Usuario fromString(String string) {
+                return null;
+            }
+        });
+        try {
+            cmbUsuario.setItems(FXCollections.observableArrayList(usuarioDAO.listarTodosUsuarios()));
         } catch (DaoException e) {
             mostrarError(e.getMessage());
         }
@@ -149,7 +174,13 @@ public class ListaVentasController implements Initializable {
                         } else {
                             dpFecha.setValue(null);
                         }
-txtUsuario.setText(String.valueOf(newSelection.getIdUsuario()));
+                        cmbUsuario.setValue(null);
+                        for (Usuario usuario : cmbUsuario.getItems()) {
+                            if (usuario.getId() == newSelection.getIdUsuario()) {
+                                cmbUsuario.setValue(usuario);
+                                break;
+                            }
+                        }
                     }
                 });
     }
@@ -161,13 +192,16 @@ txtUsuario.setText(String.valueOf(newSelection.getIdUsuario()));
             ValidacionException.validarDecimal(txtTotal.getText(), "total");
             ValidacionException.validarNoNulo(cmbCliente.getValue(),
                     "Seleccione un cliente.");
+            ValidacionException.validarNoNulo(cmbUsuario.getValue(), "Seleccione el usuario que atendió.");
 
             Venta venta = new Venta(
                     modoEdicion ? enEdicion.getNoVenta() : 0,
                     dpFecha.getValue() != null ? dpFecha.getValue().toString() : null,
                     Double.parseDouble(txtTotal.getText().trim()),
                     cmbCliente.getValue().getCui(),
-                    SesionContext.getInstancia().getUsuarioActual().getId());
+                    cmbUsuario.getValue() != null
+                            ? cmbUsuario.getValue().getId()
+                            : SesionContext.getInstancia().getUsuarioActual().getId());
 
             boolean guardado;
             if (modoEdicion) {
@@ -296,7 +330,7 @@ txtUsuario.setText(String.valueOf(newSelection.getIdUsuario()));
     private void limpiarFormulario() {
         txtTotal.clear();
         dpFecha.setValue(null);
-        txtUsuario.clear();
+        cmbUsuario.setValue(null);
         cmbCliente.setValue(null);
     }
 
@@ -304,12 +338,13 @@ txtUsuario.setText(String.valueOf(newSelection.getIdUsuario()));
         txtTotal.setDisable(false);
         dpFecha.setDisable(false);
         cmbCliente.setDisable(false);
+        cmbUsuario.setDisable(false);
     }
 
     private void desactivarFormulario() {
         txtTotal.setDisable(true);
         dpFecha.setDisable(true);
-        txtUsuario.setDisable(true);
+        cmbUsuario.setDisable(true);
         cmbCliente.setDisable(true);
     }
 

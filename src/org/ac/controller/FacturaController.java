@@ -99,7 +99,8 @@ public class FacturaController implements Initializable {
     @FXML
     private void handleVolver() {
         try {
-            Principal.cambiarEscena(Principal.rutaDashboardSegunRol());
+            //Regresa a la lista de ventas (origen de la factura), no al dashboard.
+            Principal.cambiarEscena("/org/ac/view/fxml/ListaVentasView.fxml");
         } catch (Exception e) {
             mostrarError("Error al volver al menú: " + e.getMessage());
         }

@@ -80,7 +80,7 @@ public class VentaDAOImpl implements VentaDAO {
 
     @Override
     public boolean actualizar(Venta venta) {
-        String sql = "{call sp_actualizar_venta(?,?,?,?)}";
+        String sql = "{call sp_actualizar_venta(?,?,?,?,?)}";
         try (Connection conexion = Conexion.getInstancia().conectar();
                 CallableStatement consulta = conexion.prepareCall(sql)) {
             consulta.setInt(1, venta.getNoVenta());
@@ -91,6 +91,7 @@ public class VentaDAOImpl implements VentaDAO {
             }
             consulta.setDouble(3, venta.getTotalVenta());
             consulta.setLong(4, venta.getCuiCliente());
+            consulta.setInt(5, venta.getIdUsuario());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DaoException("Error al actualizar venta: " + e.getMessage(), e);
