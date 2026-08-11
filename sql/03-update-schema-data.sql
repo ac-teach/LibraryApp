@@ -152,18 +152,13 @@ delimiter $$
 
 create procedure sp_listar_ventas()
 begin
-    select v.no_venta, v.fecha_venta, v.total_venta, v.cui_cliente, v.id_usuario,
-           concat(u.first_name, ' ', u.last_name) as nombre_usuario
-    from ventas v
-    left join usuarios u on v.id_usuario = u.id_usuario;
+    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario
+    from ventas;
 end $$
 create procedure sp_buscar_venta(in _no int)
 begin
-    select v.no_venta, v.fecha_venta, v.total_venta, v.cui_cliente, v.id_usuario,
-           concat(u.first_name, ' ', u.last_name) as nombre_usuario
-    from ventas v
-    left join usuarios u on v.id_usuario = u.id_usuario
-    where v.no_venta = _no;
+    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario
+    from ventas where no_venta = _no;
 end $$
 
 

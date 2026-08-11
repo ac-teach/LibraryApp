@@ -149,9 +149,7 @@ public class ListaVentasController implements Initializable {
                         } else {
                             dpFecha.setValue(null);
                         }
-                        txtUsuario.setText(newSelection.getNombreUsuario() != null
-                                ? newSelection.getNombreUsuario()
-                                : String.valueOf(newSelection.getIdUsuario()));
+txtUsuario.setText(String.valueOf(newSelection.getIdUsuario()));
                     }
                 });
     }

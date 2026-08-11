@@ -33,7 +33,6 @@ public class VentaDAOImpl implements VentaDAO {
                 v.setTotalVenta(rs.getDouble("total_venta"));
                 v.setCuiCliente(rs.getLong("cui_cliente"));
                 v.setIdUsuario(rs.getInt("id_usuario"));
-                v.setNombreUsuario(rs.getString("nombre_usuario"));
                 lista.add(v);
             }
         } catch (SQLException e) {
@@ -57,7 +56,6 @@ public class VentaDAOImpl implements VentaDAO {
                     v.setTotalVenta(rs.getDouble("total_venta"));
                     v.setCuiCliente(rs.getLong("cui_cliente"));
                     v.setIdUsuario(rs.getInt("id_usuario"));
-                    v.setNombreUsuario(rs.getString("nombre_usuario"));
                 }
             }
         } catch (SQLException e) {
