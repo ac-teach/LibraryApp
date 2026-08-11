@@ -453,7 +453,7 @@ end $$
 delimiter ;
 
 -- ------------------------------------------------------------------
--- PROCEDIIENTO ALMACENAADO PARA DESCONTAR STOCK
+-- PROCEDIMIENTO ALMACENADO PARA DESCONTAR STOCK
 
 DELIMITER //
 
@@ -462,24 +462,40 @@ CREATE PROCEDURE sp_descontar_stock(
     IN _cantidad INT
 )
 BEGIN
-    -- Declaramos un manejador para errores o simplemente validamos el stock
+    -- Declaramos las variables necesarias
     DECLARE v_stock_actual INT;
+    DECLARE v_existe INT;
 
-    -- Obtener el stock actual del libro
-    SELECT stock INTO v_stock_actual 
-    FROM libros 
+    -- La cantidad debe ser positiva; evita descontar 0 o stock "negativo"
+    IF _cantidad <= 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'La cantidad debe ser mayor que cero.';
+    END IF;
+
+    -- Verificamos si el libro existe
+    SELECT COUNT(*) INTO v_existe
+    FROM libros
     WHERE isbn = _isbn;
 
-    -- Verificamos si el libro existe y si hay suficiente stock
-    IF v_stock_actual IS NOT NULL AND v_stock_actual >= _cantidad THEN
+    IF v_existe = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Libro no encontrado.';
+    END IF;
+
+    -- Obtenemos el stock actual del libro
+    SELECT stock INTO v_stock_actual
+    FROM libros
+    WHERE isbn = _isbn;
+
+    -- Verificamos si hay suficiente stock
+    IF v_stock_actual >= _cantidad THEN
         -- Actualizamos restando la cantidad
-        UPDATE libros 
-        SET stock = stock - _cantidad 
+        UPDATE libros
+        SET stock = stock - _cantidad
         WHERE isbn = _isbn;
-    -- Si no hay suficiente stock, puedes lanzar un error personalizado
     ELSE
-        SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = 'Stock insuficiente o libro no encontrado.';
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Stock insuficiente.';
     END IF;
 
 END //

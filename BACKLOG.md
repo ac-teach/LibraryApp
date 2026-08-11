@@ -63,7 +63,7 @@ Correcciones de bugs que surgen durante el desarrollo y no estaban registradas e
 | # | Fix | Rama | Referencia / Criterios |
 |---|-----|------|------------------------|
 | F1 | **Volver al dashboard según rol** — el botón "volver" de las vistas hardcodeaba `AdminDashboradView.fxml`; ahora `Principal.rutaDashboardSegunRol()` centraliza el mapeo rol → dashboard (admin/empleado/cajero) y el login reutiliza el mismo punto único de verdad. | `feature/volver-dashboard-rol` | **HECHO** (commit `af0ef12`, merge en `debed3a`) — complementa la tarea 26, que quedó completa en `9830f04`. Con cada rol el botón volver regresa al dashboard correspondiente. |
-| F2 | **SP faltante `sp_descontar_stock`** — procedimiento almacenado que resta stock al inventario y valida disponibilidad (`SIGNAL` si el libro no existe o el stock es insuficiente); no estaba en los scripts SQL versionados. | `sql/03-update-schema-data.sql` | **HECHO** (cambio pendiente de commit) — el SP existe en el script y queda disponible para la gestión de ventas/inventario. |
+| F2 | **SP faltante `sp_descontar_stock`** — procedimiento almacenado que resta stock al inventario; valida cantidad positiva, existencia del libro y disponibilidad, con mensajes de error diferenciados (`SIGNAL` por caso); no estaba en los scripts SQL versionados. | `sql/03-update-schema-data.sql` | **HECHO** (cambio pendiente de commit) — el SP existe en el script y queda disponible para la gestión de ventas/inventario. |
 
 ## Convenciones para quien replique
 
