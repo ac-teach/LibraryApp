@@ -451,3 +451,37 @@ begin
 end $$
 
 delimiter ;
+
+-- ------------------------------------------------------------------
+-- PROCEDIIENTO ALMACENAADO PARA DESCONTAR STOCK
+
+DELIMITER //
+
+CREATE PROCEDURE sp_descontar_stock(
+    IN _isbn VARCHAR(20),
+    IN _cantidad INT
+)
+BEGIN
+    -- Declaramos un manejador para errores o simplemente validamos el stock
+    DECLARE v_stock_actual INT;
+
+    -- Obtener el stock actual del libro
+    SELECT stock INTO v_stock_actual 
+    FROM libros 
+    WHERE isbn = _isbn;
+
+    -- Verificamos si el libro existe y si hay suficiente stock
+    IF v_stock_actual IS NOT NULL AND v_stock_actual >= _cantidad THEN
+        -- Actualizamos restando la cantidad
+        UPDATE libros 
+        SET stock = stock - _cantidad 
+        WHERE isbn = _isbn;
+    -- Si no hay suficiente stock, puedes lanzar un error personalizado
+    ELSE
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Stock insuficiente o libro no encontrado.';
+    END IF;
+
+END //
+
+DELIMITER ;
