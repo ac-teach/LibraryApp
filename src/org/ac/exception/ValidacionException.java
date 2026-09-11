@@ -1,7 +1,11 @@
 package org.ac.exception;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ValidacionException extends Exception {
 
+        private static final Logger log = Logger.getLogger(ValidacionException.class.getName());
+    
     public ValidacionException(String mensaje) {
         super(mensaje);
     }
@@ -12,6 +16,9 @@ public class ValidacionException extends Exception {
             throw new ValidacionException(
                     "El campo " + nombreCampo + " no puede estar vacío.");
         }
+        
+        log.log(Level.WARNING, "No puede estar vacío el campo: ", nombreCampo);
+
     }
 
     public static void validarCoinciden(String a, String b, String mensaje)

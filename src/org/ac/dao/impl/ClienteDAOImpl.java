@@ -69,7 +69,8 @@ public class ClienteDAOImpl implements ClienteDAO {
     @Override
     public boolean actualizar(Cliente cliente) {
         String sql = "{call sp_actualizarcliente(?,?,?,?)}";
-        try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consulta = conexion.prepareCall(sql)) {
+        try (Connection conexion = Conexion.getInstancia().conectar();
+                CallableStatement consulta = conexion.prepareCall(sql)) {
             consulta.setLong(1, cliente.getCui());
             consulta.setString(2, cliente.getNombreCliente());
             consulta.setString(3, cliente.getApellidoCliente());

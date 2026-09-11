@@ -5,62 +5,96 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ac.controller.InicioSesionController">
+<AnchorPane id="AnchorPane" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #0a0b12;" styleClass="root" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ac.controller.InicioSesionController">
     <stylesheets>
         <URL value="@/org/ac/view/style/base.css" />
     </stylesheets>
    <children>
-      <StackPane layoutX="100.0" layoutY="100.0" prefHeight="200.0" prefWidth="400.0">
+      <Label fx:id="lblMensaje" text="" textFill="#f83737" />
+      <VBox alignment="TOP_CENTER" layoutX="446.0" layoutY="17.0" prefHeight="505.0" prefWidth="500.0" style="-fx-background-color: rgba(128, 128, 128, 0.5); -fx-background-radius: 15px; -fx-border-radius: 15px;">
          <children>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="108.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="192.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-                <children>
-                  <Label text="USUARIO:" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font></Label>
-                  <Label text="CONTRASEÑA:" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="14.0" />
-                     </font></Label>
-                  <TextField fx:id="txtUsuario" prefHeight="30.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font></TextField>
-                  <PasswordField fx:id="txtPassword" prefHeight="30.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="14.0" />
-                     </font></PasswordField>
-                  <Button fx:id="btnIniciarSesion" mnemonicParsing="false" onAction="#eventoInicioSesion" prefHeight="30.0" prefWidth="203.0" text="INICIAR" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#eventoRegistrarse" prefHeight="30.0" prefWidth="100.0" text="Registrarse" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                </children>
-            </GridPane>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/icon/account_circle_400.png" />
+               </image>
+            </ImageView>
+            <Label text="Bienvenido" textFill="WHITE">
+               <font>
+                  <Font name="JetBrains Mono Bold" size="27.0" />
+               </font>
+            </Label>
+            <StackPane prefHeight="225.0" prefWidth="400.0">
+               <children>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="192.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                      <children>
+                        <TextField fx:id="txtUsuario" prefHeight="30.0" style="-fx-background-radius: 5; -fx-background-color: #eaf0f7;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <PasswordField fx:id="txtPassword" prefHeight="30.0" style="-fx-background-radius: 5; -fx-background-color: #eaf0f7;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </PasswordField>
+                        <Button fx:id="btnIniciarSesion" mnemonicParsing="false" onAction="#eventoInicioSesion" prefHeight="30.0" prefWidth="203.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Iniciar sesión" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="JetBrains Mono Regular" size="12.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" offsetY="3.0">
+                                 <color>
+                                    <Color red="0.6447368264198303" green="0.6178728342056274" blue="0.6178728342056274" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </Button>
+                        <Label text="Usuario" textFill="#fffbfb" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="JetBrains Mono Regular" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="Contraseña" textFill="#fffbfb" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="JetBrains Mono Regular" size="12.0" />
+                           </font>
+                        </Label>
+                      </children>
+                  </GridPane>
+               </children>
+            </StackPane>
          </children>
-      </StackPane>
-      <Label layoutX="204.0" layoutY="38.0" text="INICIO DE SESIÓN">
+      </VBox>
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="130.0" prefWidth="405.0" text="Página Libre" textFill="WHITE">
          <font>
-            <Font size="24.0" />
+            <Font name="JetBrains Mono Bold" size="51.0" />
          </font>
       </Label>
-      <Label fx:id="lblMensaje" layoutX="271.0" layoutY="309.0" text="" textFill="#f83737" />
    </children>
 </AnchorPane>

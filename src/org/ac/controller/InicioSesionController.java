@@ -83,16 +83,32 @@ public class InicioSesionController implements Initializable {
     private void abrirDashboard(Usuario usuario) {
         SesionContext.getInstancia().setUsuarioActual(usuario);
 
-        String rutaFXML = Principal.rutaDashboardSegunRol();
-        if (rutaFXML.equals("/org/ac/view/fxml/InicioSesionView.fxml")) {
+        String rol = usuario.getRol();
+        String rutaDashboard = "";
+        switch (rol) {
+            case "admin":
+                rutaDashboard = "/org/ac/view/fxml/AdminDashboradView.fxml";
+                break;
+            case "cajero":
+                rutaDashboard = "/org/ac/view/fxml/AdminDashboradView.fxml";
+                break;
+            case "empleado":
+                rutaDashboard = "/org/ac/view/fxml/AdminDashboradView.fxml";
+                break;
+            default:
+                throw new AssertionError();
+        }
+
+        //String rutaFXML = Principal.rutaDashboardSegunRol();
+        if (rutaDashboard.equals("/org/ac/view/fxml/InicioSesionView.fxml")) {
             mostrarAlerta(Alert.AlertType.ERROR, "Rol desconocido: " + usuario.getRol());
             SesionContext.getInstancia().cerrarSesion();
             return;
         }
         try {
-            Principal.cambiarEscena(rutaFXML);
+            Principal.cambiarEscena(rutaDashboard);
         } catch (IOException e) {
-            System.err.println("Error al cargar la vista:" + rutaFXML + e.getMessage());
+            System.err.println("Error al cargar la vista:" + rutaDashboard + e.getMessage());
             lblMensaje.setText("Error interno");
         }
     }
