@@ -39,6 +39,10 @@ public class InicioSesionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         usuarioDAO = new UsuarioDAOImpl();
         lblMensaje.setText("");
+        //Deteccion de teclado: Enter en usuario o contrasena dispara el login,
+        //igual que el boton INICIAR.
+        txtUsuario.setOnAction(this::eventoInicioSesion);
+        txtPassword.setOnAction(this::eventoInicioSesion);
     }
 
     @FXML
@@ -79,26 +83,32 @@ public class InicioSesionController implements Initializable {
     private void abrirDashboard(Usuario usuario) {
         SesionContext.getInstancia().setUsuarioActual(usuario);
 
-        String rutaFXML = "";
-        switch (usuario.getRol().toLowerCase()) {
+        String rol = usuario.getRol();
+        String rutaDashboard = "";
+        switch (rol) {
             case "admin":
-                rutaFXML = "/org/ac/view/fxml/AdminDashboradView.fxml";
-                break;
-            case "empleado":
-                rutaFXML = "/org/ac/view/fxml/EmpleadoView.fxml";
+                rutaDashboard = "/org/ac/view/fxml/AdminDashboradView.fxml";
                 break;
             case "cajero":
-                rutaFXML = "/org/ac/view/fxml/CajeroView.fxml";
+                rutaDashboard = "/org/ac/view/fxml/AdminDashboradView.fxml";
+                break;
+            case "empleado":
+                rutaDashboard = "/org/ac/view/fxml/AdminDashboradView.fxml";
                 break;
             default:
-                mostrarAlerta(Alert.AlertType.ERROR, "Rol desconocido: " + usuario.getRol());
-                SesionContext.getInstancia().cerrarSesion();
-                return;
+                throw new AssertionError();
+        }
+
+        //String rutaFXML = Principal.rutaDashboardSegunRol();
+        if (rutaDashboard.equals("/org/ac/view/fxml/InicioSesionView.fxml")) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Rol desconocido: " + usuario.getRol());
+            SesionContext.getInstancia().cerrarSesion();
+            return;
         }
         try {
-            Principal.cambiarEscena(rutaFXML);
+            Principal.cambiarEscena(rutaDashboard);
         } catch (IOException e) {
-            System.err.println("Error al cargar la vista:" + rutaFXML + e.getMessage());
+            System.err.println("Error al cargar la vista:" + rutaDashboard + e.getMessage());
             lblMensaje.setText("Error interno");
         }
     }

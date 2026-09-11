@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ac.controller.FacturaController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <left>
+        <VBox maxWidth="300" minWidth="300" spacing="10">
+            <padding>
+                <Insets right="20" />
+            </padding>
+            <Button onAction="#handleVolver" text="Ver ventas" />
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Factura" />
+            <GridPane hgap="10" vgap="5">
+                <Label text="Factura No.:" />
+                <Label fx:id="lblNoFactura" GridPane.columnIndex="1" />
+                <Label text="Fecha:" GridPane.rowIndex="1" />
+                <Label fx:id="lblFecha" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label text="Cliente:" GridPane.rowIndex="2" />
+                <Label fx:id="lblCliente" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="CUI:" GridPane.rowIndex="3" />
+                <Label fx:id="lblCui" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label text="Correo:" GridPane.rowIndex="4" />
+                <Label fx:id="lblCorreo" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label text="Atendido por:" GridPane.rowIndex="5" />
+                <Label fx:id="lblUsuario" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label text="Total:" GridPane.rowIndex="6" />
+                <Label fx:id="lblTotal" style="-fx-font-size: 18; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
+            <HBox spacing="10">
+                <Button fx:id="btnImprimir" onAction="#handleImprimir" prefWidth="120" text="Imprimir" />
+            </HBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10">
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Detalle de la Factura" />
+            <TableView fx:id="tablaLineas">
+                <columns>
+                    <TableColumn fx:id="colTitulo" prefWidth="260" text="Libro" />
+                    <TableColumn fx:id="colIsbn" prefWidth="150" text="ISBN" />
+                    <TableColumn fx:id="colCantidad" prefWidth="80" text="Cant." />
+                    <TableColumn fx:id="colPrecioUnitario" prefWidth="110" text="Precio Unit." />
+                    <TableColumn fx:id="colSubtotal" prefWidth="110" text="Subtotal" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

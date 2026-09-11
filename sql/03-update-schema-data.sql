@@ -152,11 +152,12 @@ delimiter $$
 
 create procedure sp_listar_ventas()
 begin
-    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario from ventas;
+    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario
+    from ventas;
 end $$
 create procedure sp_buscar_venta(in _no int)
 begin
-    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario 
+    select no_venta, fecha_venta, total_venta, cui_cliente, id_usuario
     from ventas where no_venta = _no;
 end $$
 
@@ -171,12 +172,14 @@ begin
 end $$
 
 create procedure sp_actualizar_venta(
-	in _no int, 
-    in _total decimal(8,2), 
-    in _cui bigint)
+	in _no int,
+    in _fecha date,
+    in _total decimal(8,2),
+    in _cui bigint,
+    in _id_usuario int)
 begin
-    update ventas 
-    set total_venta = _total, cui_cliente = _cui
+    update ventas
+    set fecha_venta = _fecha, total_venta = _total, cui_cliente = _cui, id_usuario = _id_usuario
     where no_venta = _no;
 end $$
 
@@ -448,6 +451,86 @@ create procedure sp_eliminar_usuario(in _id_usuario int)
 begin
     delete from usuarios
     where id_usuario = _id_usuario;
+end $$
+
+delimiter ;
+
+-- ------------------------------------------------------------------
+-- PROCEDIMIENTO ALMACENADO PARA DESCONTAR STOCK
+
+DELIMITER //
+
+CREATE PROCEDURE sp_descontar_stock(
+    IN _isbn VARCHAR(20),
+    IN _cantidad INT
+)
+BEGIN
+    -- Declaramos las variables necesarias
+    DECLARE v_stock_actual INT;
+    DECLARE v_existe INT;
+
+    -- La cantidad debe ser positiva; evita descontar 0 o stock "negativo"
+    IF _cantidad <= 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'La cantidad debe ser mayor que cero.';
+    END IF;
+
+    -- Verificamos si el libro existe
+    SELECT COUNT(*) INTO v_existe
+    FROM libros
+    WHERE isbn = _isbn;
+
+    IF v_existe = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Libro no encontrado.';
+    END IF;
+
+    -- Obtenemos el stock actual del libro
+    SELECT stock INTO v_stock_actual
+    FROM libros
+    WHERE isbn = _isbn;
+
+    -- Verificamos si hay suficiente stock
+    IF v_stock_actual >= _cantidad THEN
+        -- Actualizamos restando la cantidad
+        UPDATE libros
+        SET stock = stock - _cantidad
+        WHERE isbn = _isbn;
+    ELSE
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Stock insuficiente.';
+    END IF;
+
+END //
+
+DELIMITER ;
+
+-- ============================================================================
+-- PROCEDIMIENTO PARA GENERAR LA FACTURA (fusion venta + detalle + cliente + libro + usuario)
+-- ============================================================================
+delimiter $$
+
+create procedure sp_buscar_factura(in _no_venta int)
+begin
+    select
+        v.no_venta as numero_factura,
+        v.fecha_venta as fecha_emision,
+        c.cui as cui_cliente,
+        concat(c.nombre_cliente, ' ', c.apellido_cliente) as nombre_cliente,
+        c.correo_electronico as correo_cliente,
+        l.isbn as isbn_libro,
+        l.titulo as titulo_libro,
+        dv.cantidad as cantidad,
+        dv.precio_unitario as precio_unitario,
+        (dv.cantidad * dv.precio_unitario) as subtotal,
+        concat(u.first_name, ' ', u.last_name) as usuario_atendio,
+        v.total_venta as gran_total
+    from ventas v
+    inner join clientes c on v.cui_cliente = c.cui
+    inner join detalle_venta dv on v.no_venta = dv.no_venta
+    inner join libros l on dv.isbn = l.isbn
+    inner join usuarios u on v.id_usuario = u.id_usuario
+    where v.no_venta = _no_venta;
 end $$
 
 delimiter ;
