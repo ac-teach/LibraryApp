@@ -14,7 +14,7 @@ import org.ac.util.Conexion;
  * Implementación de la interfaz {@link CategoriaDAO} para la gestión de datos de categorías.
  * Utiliza JDBC y procedimientos almacenados para realizar operaciones CRUD en la base de datos.
  *
- * @author aruba
+ * @author Alvaro Calderón
  * @version 1.0
  * @see CategoriaDAO
  * @see Categoria

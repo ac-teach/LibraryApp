@@ -21,6 +21,15 @@ import org.ac.exception.ValidacionException;
 import org.ac.model.Categoria;
 import org.ac.system.Principal;
 
+/**
+ * Controlador de la interfaz gráfica de usuario para la gestión de categorías.
+ * Administra la presentación, búsqueda, creación, edición y navegación de registros de {@link Categoria} en JavaFX.
+ *
+ * @author Alvaro Calderón
+ * @version 1.0
+ * @see javafx.fxml.Initializable
+ * @see org.ac.model.Categoria
+ */
 public class CategoriaController implements Initializable {
 
     @FXML
@@ -54,6 +63,14 @@ public class CategoriaController implements Initializable {
     private final ObservableList<Categoria> listaCategorias = FXCollections.observableArrayList();
     private final FilteredList<Categoria> categoriasFiltradas = new FilteredList<>(listaCategorias, p -> true);
 
+    /**
+     * Inicializa el controlador al cargar la vista FXML.
+     * Configura el mapeo de columnas, carga los datos desde la base de datos y 
+     * establece los escuchadores de eventos para la búsqueda y selección de elementos.
+     *
+     * @param location La ubicación utilizada para resolver rutas relativas para el objeto raíz, o {@code null}.
+     * @param resources Los recursos utilizados para localizar el objeto raíz, o {@code null}.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarTabla();
@@ -63,11 +80,17 @@ public class CategoriaController implements Initializable {
         configurarBusqueda();
     }
 
+    /**
+     * Configura las columnas de la tabla vinculando las propiedades del modelo {@link Categoria}.
+     */
     public void configurarTabla() {
         colIdCategoria.setCellValueFactory(new PropertyValueFactory<Categoria, Integer>("idCategoria"));
         colNombreCategoria.setCellValueFactory(new PropertyValueFactory<Categoria, String>("nombreCategoria"));
     }
 
+    /**
+     * Carga la lista completa de categorías desde la base de datos a la colección observable.
+     */
     private void cargarTabla() {
         try {
             listaCategorias.setAll(categoriaDAO.listarTodos());
@@ -76,10 +99,17 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Configura un escuchador de cambio de texto en el campo de búsqueda para filtrar la tabla dinámicamente.
+     */
     private void configurarBusqueda() {
         txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> filtrarCategorias());
     }
 
+    /**
+     * Filtra la lista de categorías según el texto ingresado en el campo de búsqueda,
+     * evaluando coincidencia tanto en el ID como en el nombre de la categoría.
+     */
     private void filtrarCategorias() {
         String busqueda = txtBuscar.getText().trim().toLowerCase();
         if (busqueda.isEmpty()) {
@@ -91,6 +121,10 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Configura el escuchador de selección de filas en la tabla para reflejar la categoría 
+     * seleccionada en los campos del formulario.
+     */
     private void seleccionarFila() {
         tablaCategorias.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
@@ -101,6 +135,10 @@ public class CategoriaController implements Initializable {
                 });
     }
 
+    /**
+     * Maneja el evento para guardar una categoría (crear o actualizar).
+     * Valida la entrada, invoca las operaciones del DAO y actualiza la vista.
+     */
     @FXML
     private void handleGuardar() {
         try {
@@ -137,6 +175,10 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento para cancelar la operación actual de registro o edición,
+     * restaurando el estado original de la interfaz.
+     */
     @FXML
     private void handleCancelar() {
         limpiarFormulario();
@@ -147,6 +189,9 @@ public class CategoriaController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Maneja el evento para habilitar el formulario en modo de creación de un nuevo registro.
+     */
     @FXML
     private void handleNuevo() {
         modoEdicion = false;
@@ -159,6 +204,9 @@ public class CategoriaController implements Initializable {
         txtNombre.requestFocus();
     }
 
+    /**
+     * Maneja el evento para preparar el formulario en modo de edición con el elemento seleccionado en la tabla.
+     */
     @FXML
     private void handleEditar() {
         Categoria seleccion = tablaCategorias.getSelectionModel().getSelectedItem();
@@ -173,6 +221,9 @@ public class CategoriaController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Selecciona y desplaza la vista hacia el primer registro de la tabla.
+     */
     @FXML
     private void handlePrimero() {
         if (!tablaCategorias.getItems().isEmpty()) {
@@ -181,6 +232,9 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona y desplaza la vista hacia el registro anterior en la tabla.
+     */
     @FXML
     private void handleAnterior() {
         if (!tablaCategorias.getItems().isEmpty()) {
@@ -191,6 +245,9 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona y desplaza la vista hacia el registro siguiente en la tabla.
+     */
     @FXML
     private void handleSiguiente() {
         if (!tablaCategorias.getItems().isEmpty()) {
@@ -201,6 +258,9 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona y desplaza la vista hacia el último registro de la tabla.
+     */
     @FXML
     private void handleUltimo() {
         if (!tablaCategorias.getItems().isEmpty()) {
@@ -209,6 +269,9 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento para regresar a la vista del dashboard principal de la aplicación.
+     */
     @FXML
     private void handleVolver() {
         try {
@@ -218,18 +281,30 @@ public class CategoriaController implements Initializable {
         }
     }
 
+    /**
+     * Limpia los textos ingresados en los campos de entrada del formulario.
+     */
     private void limpiarFormulario() {
         txtNombre.clear();
     }
 
+    /**
+     * Habilita los campos de entrada del formulario para permitir la edición o creación.
+     */
     private void activarFormulario() {
         txtNombre.setDisable(false);
     }
 
+    /**
+     * Deshabilita los campos de entrada del formulario para prevenir modificaciones no deseadas.
+     */
     private void desactivarFormulario() {
         txtNombre.setDisable(true);
     }
 
+    /**
+     * Habilita los botones de navegación, la tabla y la barra de búsqueda.
+     */
     private void activarNavegacion() {
         tablaCategorias.setDisable(false);
         btnNuevo.setDisable(false);
@@ -241,6 +316,9 @@ public class CategoriaController implements Initializable {
         txtBuscar.setDisable(false);
     }
 
+    /**
+     * Deshabilita los botones de navegación, la tabla y la barra de búsqueda durante operaciones de edición o creación.
+     */
     private void desactivarNavegacion() {
         tablaCategorias.setDisable(true);
         btnNuevo.setDisable(true);
@@ -252,6 +330,11 @@ public class CategoriaController implements Initializable {
         txtBuscar.setDisable(true);
     }
 
+    /**
+     * Muestra una alerta emergente de tipo Error con el mensaje especificado.
+     *
+     * @param mensaje El texto explicativo del error a mostrar.
+     */
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -260,6 +343,11 @@ public class CategoriaController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra una alerta emergente de tipo Advertencia con el mensaje especificado.
+     *
+     * @param mensaje El texto explicativo de la advertencia a mostrar.
+     */
     private void mostrarAdvertencia(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Advertencia");
@@ -267,5 +355,4 @@ public class CategoriaController implements Initializable {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-
 }
