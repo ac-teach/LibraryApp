@@ -10,8 +10,24 @@ import org.ac.exception.DaoException;
 import org.ac.model.Categoria;
 import org.ac.util.Conexion;
 
+/**
+ * Implementación de la interfaz {@link CategoriaDAO} para la gestión de datos de categorías.
+ * Utiliza JDBC y procedimientos almacenados para realizar operaciones CRUD en la base de datos.
+ *
+ * @author aruba
+ * @version 1.0
+ * @see CategoriaDAO
+ * @see Categoria
+ */
 public class CategoriaDAOImpl implements CategoriaDAO {
 
+    /**
+     * Obtiene la lista completa de todas las categorías registradas.
+     * Ejecuta el procedimiento almacenado {@code sp_listarcategorias()}.
+     *
+     * @return Una lista de tipo {@link ArrayList} con los objetos {@link Categoria} encontrados.
+     * @throws DaoException Si ocurre un error al comunicarse con la base de datos.
+     */
     @Override
     public ArrayList<Categoria> listarTodos() {
         ArrayList<Categoria> lista = new ArrayList<>();
@@ -31,6 +47,14 @@ public class CategoriaDAOImpl implements CategoriaDAO {
         return lista;
     }
 
+    /**
+     * Busca y retorna una categoría según su identificador único.
+     * Ejecuta el procedimiento almacenado {@code sp_buscarcategoria(?)}.
+     *
+     * @param idCategoria El identificador único de la categoría a consultar.
+     * @return El objeto {@link Categoria} si se encuentra, o {@code null} si no existe registro.
+     * @throws DaoException Si ocurre un error al comunicarse con la base de datos.
+     */
     @Override
     public Categoria buscarPorId(Integer idCategoria) {
         Categoria c = null;
@@ -51,6 +75,14 @@ public class CategoriaDAOImpl implements CategoriaDAO {
         return c;
     }
 
+    /**
+     * Registra una nueva categoría en la base de datos.
+     * Ejecuta el procedimiento almacenado {@code sp_insertarcategoria(?)}.
+     *
+     * @param categoria El objeto {@link Categoria} con la información a insertar.
+     * @return {@code true} si la inserción fue exitosa; {@code false} en caso contrario.
+     * @throws DaoException Si ocurre un error al comunicarse con la base de datos.
+     */
     @Override
     public boolean crear(Categoria categoria) {
         String sql = "{call sp_insertarcategoria(?)}";
@@ -63,6 +95,14 @@ public class CategoriaDAOImpl implements CategoriaDAO {
         }
     }
 
+    /**
+     * Actualiza la información de una categoría existente.
+     * Ejecuta el procedimiento almacenado {@code sp_actualizarcategoria(?,?)}.
+     *
+     * @param categoria El objeto {@link Categoria} que contiene los datos actualizados y el ID correspondiente.
+     * @return {@code true} si el registro fue actualizado correctamente; {@code false} en caso contrario.
+     * @throws DaoException Si ocurre un error al comunicarse con la base de datos.
+     */
     @Override
     public boolean actualizar(Categoria categoria) {
         String sql = "{call sp_actualizarcategoria(?,?)}";
@@ -76,6 +116,14 @@ public class CategoriaDAOImpl implements CategoriaDAO {
         }
     }
 
+    /**
+     * Elimina una categoría de la base de datos mediante su ID.
+     * Ejecuta el procedimiento almacenado {@code sp_eliminarcategoria(?)}.
+     *
+     * @param idCategoria El identificador único de la categoría a eliminar.
+     * @return {@code true} si la eliminación fue exitosa; {@code false} en caso contrario.
+     * @throws DaoException Si ocurre un error al comunicarse con la base de datos.
+     */
     @Override
     public boolean eliminar(Integer idCategoria) {
         String sql = "{call sp_eliminarcategoria(?)}";
