@@ -28,6 +28,7 @@ public class LibroDAOImpl implements LibroDAO {
                 l.setIdCategoria(rs.getInt("id_categoria"));
                 l.setNitEditorial(rs.getString("nit_editorial"));
                 l.setStock(rs.getInt("stock"));
+                l.setUrlFoto(rs.getString("url_foto"));
                 lista.add(l);
             }
         } catch (SQLException e) {
@@ -53,6 +54,7 @@ public class LibroDAOImpl implements LibroDAO {
                     l.setIdCategoria(rs.getInt("id_categoria"));
                     l.setNitEditorial(rs.getString("nit_editorial"));
                     l.setStock(rs.getInt("stock"));
+                    l.setUrlFoto(rs.getString("url_foto"));
                 }
             }
         } catch (SQLException e) {
@@ -63,7 +65,7 @@ public class LibroDAOImpl implements LibroDAO {
 
     @Override
     public boolean crear(Libro libro) {
-        String sql = "{call sp_crear_libro(?,?,?,?,?,?,?)}";
+        String sql = "{call sp_crear_libro(?,?,?,?,?,?,?,?)}";
         try (Connection conexion = Conexion.getInstancia().conectar();
                 CallableStatement consulta = conexion.prepareCall(sql)) {
             consulta.setString(1, libro.getIsbn());
@@ -73,6 +75,7 @@ public class LibroDAOImpl implements LibroDAO {
             consulta.setInt(5, libro.getIdCategoria());
             consulta.setString(6, libro.getNitEditorial());
             consulta.setInt(7, libro.getStock());
+            consulta.setString(8, libro.getUrlFoto());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DaoException("Error al insertar libro: " + e.getMessage(), e);
@@ -81,7 +84,7 @@ public class LibroDAOImpl implements LibroDAO {
 
     @Override
     public boolean actualizar(Libro libro) {
-        String sql = "{call sp_actualizar_libro(?,?,?,?,?,?,?)}";
+        String sql = "{call sp_actualizar_libro(?,?,?,?,?,?,?,?)}";
         try (Connection conexion = Conexion.getInstancia().conectar();
                 CallableStatement consulta = conexion.prepareCall(sql)) {
             consulta.setString(1, libro.getIsbn());
@@ -91,6 +94,7 @@ public class LibroDAOImpl implements LibroDAO {
             consulta.setInt(5, libro.getIdCategoria());
             consulta.setString(6, libro.getNitEditorial());
             consulta.setInt(7, libro.getStock());
+            consulta.setString(8, libro.getUrlFoto());
             return consulta.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DaoException("Error al actualizar libro: " + e.getMessage(), e);

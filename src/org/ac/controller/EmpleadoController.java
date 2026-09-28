@@ -26,6 +26,7 @@ public class EmpleadoController implements Initializable {
 
     @FXML private Button btnInventario;
     @FXML private Button btnLibro;
+    @FXML private Button btnCatalogo;
     @FXML private Button btnAutor;
     @FXML private Button btnCategoria;
     @FXML private Button btnEditorial;
@@ -74,6 +75,11 @@ public class EmpleadoController implements Initializable {
     @FXML
     public void irALibro(ActionEvent evento) {
         navegar("/org/ac/view/fxml/LibroView.fxml");
+    }
+
+    @FXML
+    public void irACatalogo(ActionEvent evento) {
+        navegar("/org/ac/view/fxml/CatalogoView.fxml");
     }
 
     @FXML

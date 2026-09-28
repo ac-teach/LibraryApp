@@ -54,6 +54,7 @@
                         <Button fx:id="btnDetalleVenta" mnemonicParsing="false" onAction="#irADetalleVenta" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📋   Detalle Ventas" />
                         <Button fx:id="btnListaVentas" mnemonicParsing="false" onAction="#irAListaVentas" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📑   Lista de Ventas" />
                         <Button fx:id="btnInventario" mnemonicParsing="false" onAction="#irAInventario" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📦   Inventario" />
+                        <Button fx:id="btnCatalogo" mnemonicParsing="false" onAction="#irACatalogo" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📕   Catálogo" />
                     </children>
                 </VBox>
                 <Separator styleClass="sidebar-separator" />

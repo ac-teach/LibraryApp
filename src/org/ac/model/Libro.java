@@ -8,11 +8,12 @@ public class Libro {
     private int idCategoria;
     private String nitEditorial;
     private int stock;
+    private String urlFoto;
 
     public Libro() {
     }
 
-    public Libro(String isbn, String titulo, String fechaPublicacion, double precio, int idCategoria, String nitEditorial, int stock) {
+    public Libro(String isbn, String titulo, String fechaPublicacion, double precio, int idCategoria, String nitEditorial, int stock, String urlFoto) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.fechaPublicacion = fechaPublicacion;
@@ -20,6 +21,7 @@ public class Libro {
         this.idCategoria = idCategoria;
         this.nitEditorial = nitEditorial;
         this.stock = stock;
+        this.urlFoto = urlFoto;
     }
 
     public String getIsbn() {
@@ -76,6 +78,14 @@ public class Libro {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 
     @Override

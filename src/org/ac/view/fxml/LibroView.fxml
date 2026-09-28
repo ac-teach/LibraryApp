@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -30,10 +31,8 @@
             <TextField fx:id="txtStock" disable="true" prefHeight="30.0" promptText="Stock" />
             <ComboBox fx:id="cmbCategoria" disable="true" prefHeight="30.0" promptText="Categoría" />
             <ComboBox fx:id="cmbEditorial" disable="true" prefHeight="30.0" promptText="Editorial" />
-            <HBox spacing="10">
-                <Button fx:id="btnNuevo" onAction="#handleNuevo" prefWidth="120" text="Nuevo" />
-                <Button fx:id="btnEditar" onAction="#handleEditar" prefWidth="120" text="Editar" />
-            </HBox>
+            <ImageView fx:id="imgPortada" fitHeight="170.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btnCambiarFoto" disable="true" onAction="#handleCambiarFoto" prefHeight="30.0" prefWidth="120" text="Cambiar foto" />
             <HBox spacing="10">
                 <Button onAction="#handleGuardar" prefWidth="120" text="Guardar" />
                 <Button onAction="#handleCancelar" prefWidth="120" text="Cancelar" />
@@ -57,12 +56,20 @@
                     <TableColumn fx:id="colNitEditorial" prefWidth="110" text="NIT Editorial" />
                 </columns>
             </TableView>
-            <HBox spacing="10">
-                <Button fx:id="btnPrimero" onAction="#handlePrimero" text="Primero" />
-                <Button fx:id="btnAnterior" onAction="#handleAnterior" text="Anterior" />
-                <Button fx:id="btnSiguiente" onAction="#handleSiguiente" text="Siguiente" />
-                <Button fx:id="btnUltimo" onAction="#handleUltimo" text="Último" />
-            </HBox>
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                  <HBox spacing="10">
+                      <Button fx:id="btnNuevo" onAction="#handleNuevo" prefWidth="120" text="Nuevo +" />
+                      <Button fx:id="btnEditar" onAction="#handleEditar" prefWidth="120" text="Editar" />
+                  </HBox>
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="538.0" spacing="10">
+                      <Button fx:id="btnPrimero" onAction="#handlePrimero" text="Primero" />
+                      <Button fx:id="btnAnterior" onAction="#handleAnterior" text="Anterior" />
+                      <Button fx:id="btnSiguiente" onAction="#handleSiguiente" text="Siguiente" />
+                      <Button fx:id="btnUltimo" onAction="#handleUltimo" text="Último" />
+                  </HBox>
+            </children>
+         </HBox>
         </VBox>
     </center>
 </BorderPane>

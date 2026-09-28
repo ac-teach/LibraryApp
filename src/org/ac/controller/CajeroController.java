@@ -28,6 +28,7 @@ public class CajeroController implements Initializable {
     @FXML private Button btnDetalleVenta;
     @FXML private Button btnListaVentas;
     @FXML private Button btnInventario;
+    @FXML private Button btnCatalogo;
 
     @FXML private VBox cardAgregarVenta;
     @FXML private VBox cardDetalleVenta;
@@ -80,6 +81,11 @@ public class CajeroController implements Initializable {
     @FXML
     public void irAInventario(ActionEvent evento) {
         navegar("/org/ac/view/fxml/InventarioView.fxml");
+    }
+
+    @FXML
+    public void irACatalogo(ActionEvent evento) {
+        navegar("/org/ac/view/fxml/CatalogoView.fxml");
     }
 
     @FXML

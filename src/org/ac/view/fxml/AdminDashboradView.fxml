@@ -52,6 +52,7 @@
                     <children>
                         <Button fx:id="btnUsuario" mnemonicParsing="false" onAction="#irAUsuario" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   👤   Usuarios" />
                         <Button fx:id="btnLibro" mnemonicParsing="false" onAction="#irALibro" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📖   Libros" />
+                        <Button fx:id="btnCatalogo" mnemonicParsing="false" onAction="#irACatalogo" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📕   Catálogo" />
                         <Button fx:id="btnAutor" mnemonicParsing="false" onAction="#irAAutor" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   ✍️   Autores" />
                         <Button fx:id="btnCategoria" mnemonicParsing="false" onAction="#irACategoria" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🏷️   Categorías" />
                         <Button fx:id="btnEditorial" mnemonicParsing="false" onAction="#irAEditorial" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🏢   Editoriales" />

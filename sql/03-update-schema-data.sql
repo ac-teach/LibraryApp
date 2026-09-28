@@ -501,3 +501,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+
+ALTER TABLE libros
+    ADD COLUMN url_foto VARCHAR(100);

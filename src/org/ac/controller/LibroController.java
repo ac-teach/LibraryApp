@@ -1,6 +1,9 @@
 package org.ac.controller;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +18,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import org.ac.dao.CategoriaDAO;
 import org.ac.dao.EditorialDAO;
 import org.ac.dao.LibroDAO;
@@ -76,6 +82,14 @@ public class LibroController implements Initializable {
     private Button btnUltimo;
     @FXML
     private TextField txtBuscar;
+
+    private static final String DIRECTORIO_FOTOS = "src/imagenes";
+    @FXML
+    private ImageView imgPortada;
+    @FXML
+    private Button btnCambiarFoto;
+    private File archivoFotoSeleccionado = null;
+    private String urlFotoActual = null;
 
     private boolean modoEdicion = false;
     private final LibroDAO libroDAO = new LibroDAOImpl();
@@ -164,9 +178,36 @@ public class LibroController implements Initializable {
                                 break;
                             }
                         }
+                        urlFotoActual = newSelection.getUrlFoto();
+                        archivoFotoSeleccionado = null;
+                        if (urlFotoActual != null && !urlFotoActual.isEmpty()) {
+                            File foto = new File("src", urlFotoActual);
+                            if (foto.exists()) {
+                                imgPortada.setImage(new Image(foto.toURI().toString()));
+                            } else {
+                                imgPortada.setImage(null);
+                            }
+                        } else {
+                            imgPortada.setImage(null);
+                        }
                         desactivarFormulario();
                     }
                 });
+    }
+
+    @FXML
+    private void handleCambiarFoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar foto del libro");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes (*.jpg, *.jpeg, *.png, *.gif, *.bmp)",
+                        "*.jpg", "*.jpeg", "*.png", "*.gif", "*.bmp"),
+                new FileChooser.ExtensionFilter("Todos los archivos", "*.*"));
+        File elegido = fileChooser.showOpenDialog(btnCambiarFoto.getScene().getWindow());
+        if (elegido != null) {
+            archivoFotoSeleccionado = elegido;
+            imgPortada.setImage(new Image(elegido.toURI().toString()));
+        }
     }
 
     @FXML
@@ -189,14 +230,29 @@ public class LibroController implements Initializable {
             ValidacionException.validarNoNulo(cmbEditorial.getValue(),
                     "Seleccione una editorial.");
 
+            String isbn = txtIsbn.getText().trim();
+            String urlFoto = urlFotoActual;
+            if (archivoFotoSeleccionado != null) {
+                String nombreOriginal = archivoFotoSeleccionado.getName();
+                String extension = nombreOriginal.contains(".")
+                        ? nombreOriginal.substring(nombreOriginal.lastIndexOf('.') + 1)
+                        : "jpg";
+                String nombreFoto = isbn + "." + extension;
+                File destino = new File(DIRECTORIO_FOTOS, nombreFoto);
+                Files.createDirectories(destino.getParentFile().toPath());
+                Files.copy(archivoFotoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                urlFoto = "imagenes/" + nombreFoto;
+            }
+
             Libro libro = new Libro(
-                    txtIsbn.getText().trim(),
+                    isbn,
                     txtTitulo.getText().trim(),
                     txtFecha.getText().trim(),
                     Double.parseDouble(txtPrecio.getText().trim()),
                     cmbCategoria.getValue().getIdCategoria(),
                     cmbEditorial.getValue().getNit(),
-                    Integer.parseInt(txtStock.getText().trim()));
+                    Integer.parseInt(txtStock.getText().trim()),
+                    urlFoto);
 
             boolean guardado;
             if (modoEdicion) {
@@ -311,6 +367,9 @@ public class LibroController implements Initializable {
         txtStock.clear();
         cmbCategoria.setValue(null);
         cmbEditorial.setValue(null);
+        imgPortada.setImage(null);
+        archivoFotoSeleccionado = null;
+        urlFotoActual = null;
     }
 
     private void activarFormulario() {
@@ -321,6 +380,7 @@ public class LibroController implements Initializable {
         txtStock.setDisable(false);
         cmbCategoria.setDisable(false);
         cmbEditorial.setDisable(false);
+        btnCambiarFoto.setDisable(false);
     }
 
     private void desactivarFormulario() {
@@ -331,6 +391,7 @@ public class LibroController implements Initializable {
         txtStock.setDisable(true);
         cmbCategoria.setDisable(true);
         cmbEditorial.setDisable(true);
+        btnCambiarFoto.setDisable(true);
     }
 
     private void activarNavegacion() {
